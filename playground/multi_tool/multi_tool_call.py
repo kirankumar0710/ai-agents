@@ -91,7 +91,11 @@ for message in user_messages:
     )
 
     # Extract what Claude decided
-    tool_use_block = next(b for b in response.content if b.type == "tool_use")
+    tool_use_block = next((b for b in response.content if b.type == "tool_use"), None)
+    if tool_use_block is None:
+        print("Claude did not call a tool:", response.content)
+        continue
+
     tool_name = tool_use_block.name  # "calculator"  — Claude picked this
     tool_input = (
         tool_use_block.input
@@ -103,10 +107,18 @@ for message in user_messages:
 
     tool_result = execute_tool(tool_name, tool_input)
 
+    # Only set system prompt for weather responses
+    system_prompt = (
+        "Always use relevant emojis when presenting weather data."
+        if tool_name == "get_weather"
+        else anthropic.NOT_GIVEN
+    )
+
     final_response = client.messages.create(
         model="claude-opus-4-5",
         max_tokens=1024,
-        system="Always use relevant emojis when presenting weather data.",
+        # pass system parameter only for weather
+        system=system_prompt,
         tools=tools,
         messages=[
             {"role": "user", "content": message},  # repeated — no memory

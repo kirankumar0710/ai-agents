@@ -1,6 +1,5 @@
 import anthropic
 import sys
-import os
 from lib import key
 from lib import config
 from tools import calculator as cal
@@ -61,7 +60,7 @@ tools = [
 #   2. Decided which tool to use (calculator)
 #   3. Extracted the expression into correct JSON format
 #
-# The actual math? Pure Python eval() — nothing to do with Claude.
+# The actual math? Pure Python AST evaluation — nothing to do with Claude.
 # =================================================================================
 
 # User message stored once — reused in both API calls to avoid mismatch
@@ -86,7 +85,7 @@ print("Response content:", response.content)
 tool_use_block = next((b for b in response.content if b.type == "tool_use"), None)
 if tool_use_block is None:
     print("Claude did not call a tool:", response.content[0].text)
-    sys.exit
+    sys.exit(1)
 
 tool_name = tool_use_block.name  # "calculator"  — Claude picked this
 tool_input = (

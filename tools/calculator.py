@@ -1,4 +1,5 @@
-import ast, operator
+import ast
+import operator
 
 _OPS = {
     ast.Add: operator.add,

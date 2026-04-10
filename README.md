@@ -6,7 +6,7 @@ Learning and building AI agents using Claude (Anthropic).
 
 | Folder | Purpose |
 |--------|---------|
-| `lib/` | Reusable utilities — key loading, auth |
+| `lib/` | Reusable utilities — key loading, auth, config loading |
 | `tools/` | Tool implementations — calculator, weather, fileops |
 | `playground/` | Learning experiments — single tool, multi tool |
 | `projects/` | Production work |
