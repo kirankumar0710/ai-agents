@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground — Tool Reference</title>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SAMPLE OUTPUTS — edit these arrays to update the page.
+         Each string is one line. Empty string "" = blank line.
+         ═══════════════════════════════════════════════════════════ -->
+    <script id="samples">
+        const SAMPLES = {
+
+            single_tool: [
+                "Stop reason: tool_use",
+                "Response content: [TextBlock(citations=None, ",
+                " text='I need to calculate the total number of items: (347 boxes × 28 items per box) + 4521 loose items.',",
+                " type='text'), ",
+                " ToolUseBlock(id='toolu_01UfyHxacVZHN25cRuHfUADK', ",
+                "     caller=DirectCaller(type='direct'), ",
+                "     input={'expression': '(347 * 28) + 4521'},",
+                "     name='calculator', type='tool_use'",
+                " )]",
+                "",
+                "Claude wants to call: calculator",
+                "With input: {'expression': '(347 * 28) + 4521'}",
+                "Final answer: Your total is **14,237 items**.",
+                "",
+                "Here's the breakdown:",
+                "- Items in boxes: 347 × 28 = 9,716",
+                "- Loose items: 4,521",
+                "- **Total: 14,237**",
+            ].join("\n"),
+
+            multi_tool: [
+                "Claude wants to call: calculator",
+                "With input: {'expression': '347 * 28 + 4521'}",
+                "",
+                "Final answer: The total number of items is **14,237**.",
+                "",
+                "Here's the breakdown:",
+                "- Items in boxes: 347 × 28 = 9,716",
+                "- Loose items: 4,521",
+                "- **Total: 14,237 items**",
+                "",
+                "================================================================================",
+                "",
+                "Claude wants to call: get_weather",
+                "With input: {'city': 'Bengaluru'}",
+                "",
+                "Final answer: # Weather in Bengaluru 🌤️",
+                "",
+                "| | |",
+                "|---|---|",
+                "| 📍 **Location** | Bengaluru |",
+                "| 🌡️ **Temperature** | 30.1°C |",
+                "| 💨 **Wind Speed** | 9.6 km/h |",
+                "| 🕐 **Local Time** | 1:15 PM |",
+                "",
+                "It's a warm afternoon in Bengaluru! ☀️ The temperature is quite pleasant at around 30°C with light winds. Perfect weather to stay hydrated! 💧",
+                "",
+                "================================================================================",
+                "",
+                "Claude wants to call: write_file",
+                "With input: {'filename': 'output.txt', 'content': 'Hello from Claude!'}",
+                "",
+                "Final answer: Done! I've written \"Hello from Claude!\" to the file `output.txt`. The file now contains your message.",
+                "",
+                "================================================================================"
+            ].join("\n"),
+
+            agent_loop: [
+                "🚀 CLI Agent — Claude + Tool Use",
+                "Type 'quit' to exit",
+                "",
+                "You: How many seconds are in 2 week, 4 days, 8 hours, 16 min ",
+                "",
+                "🤖 Agent starting...",
+                "  🔧 calculator((2 * 7 * 24 * 60 * 60) + (4 * 24 * 60 * 60) + (8 *...)",
+                "  ✓  1584960...",
+                "",
+                "Agent: **2 weeks, 4 days, 8 hours, and 16 minutes = 1,584,960 seconds**",
+                "",
+                "Here's the breakdown:",
+                "| Unit | Calculation | Seconds |",
+                "|------|-------------|---------|",
+                "| 2 weeks | 2 × 7 × 24 × 60 × 60 | 1,209,600 |",
+                "| 4 days | 4 × 24 × 60 × 60 | 345,600 |",
+                "| 8 hours | 8 × 60 × 60 | 28,800 |",
+                "| 16 minutes | 16 × 60 | 960 |",
+                "| **Total** | | **1,584,960** |",
+                "",
+                "",
+                "================================================================================",
+                "You: what is temprature in bengaluru and tokyo , compare and summarize and write to weather_summarize.txt",
+                "",
+                "🤖 Agent starting...",
+                "  🔧 get_weather(Bengaluru...)",
+                "  ✓  Location: Bengaluru, Temperature: 29.9°C, Wind Speed: 7.3 km/h, Time: 2026-04-10...",
+                "  🔧 get_weather(Tokyo...)",
+                "  ✓  Location: Tokyo, Temperature: 18.8°C, Wind Speed: 6.4 km/h, Time: 2026-04-10T13:...",
+                "  🔧 calculator(29.9 - 18.8...)",
+                "  ✓  11.099999999999998...",
+                "  🔧 write_file(weather_summarize.txt...)",
+                "  ✓  Successfully wrote 913 characters to weather_summarize.txt...",
+                "",
+                "Agent: Done! Here's the summary:",
+                "",
+                "## Weather Comparison: Bengaluru vs Tokyo",
+                "",
+                "| City | Temperature | Wind Speed |",
+                "|------|-------------|------------|",
+                "| **Bengaluru** | 29.9°C | 7.3 km/h |",
+                "| **Tokyo** | 18.8°C | 6.4 km/h |",
+                "",
+                "### Key Findings:",
+                "- **Bengaluru is warmer** than Tokyo by **11.1°C**",
+                "- Bengaluru is experiencing warm/hot weather (~30°C), typical of its tropical climate",
+                "- Tokyo has mild spring weather (~19°C)",
+                "- Both cities have similar light wind conditions",
+                "",
+                "The complete comparison has been saved to **weather_summarize.txt** 📄",
+                "",
+                "",
+                "================================================================================",
+                "You: how stock market are getting impacted due  iran war",
+                "",
+                "🤖 Agent starting...",
+                "  🔧 web_search(Iran war impact on stock market 2024...)",
+                "  ✓  No direct answer found for: Iran war impact on stock market 2024. Try rephrasing...",
+                "  🔧 web_search(Iran Israel conflict stock market reaction today...)",
+                "  ✓  No direct answer found for: Iran Israel conflict stock market reaction today. Tr...",
+                "  🔧 web_search(Middle East tensions Iran stock market impact 2024...)",
+                "  ✓  No direct answer found for: Middle East tensions Iran stock market impact 2024. ...",
+                "  🔧 web_search(oil prices Iran conflict global markets...)",
+                "  ✓  No direct answer found for: oil prices Iran conflict global markets. Try rephras...",
+                "  🔧 web_search(Iran geopolitical risk stock markets effect...)",
+                "  ✓  No direct answer found for: Iran geopolitical risk stock markets effect. Try rep...",
+                "  🔧 web_search(S&P 500 Dow Jones Middle East war news...)",
+                "  ✓  No direct answer found for: S&P 500 Dow Jones Middle East war news. Try rephrasi...",
+                "",
+                "Agent: I apologize that the search tool isn't returning specific current results. However, based on general financial knowledge, I can explain how conflicts involving Iran typically impact stock markets:",
+                "",
+                "## How Iran-Related Conflicts Impact Stock Markets",
+                "",
+                "### 1. **Oil Prices Surge**",
+                "- Iran is a major oil producer (OPEC member)",
+                "- Any conflict raises fears of supply disruptions in the Persian Gulf (through which ~20% of global oil passes via the Strait of Hormuz)",
+                "- Higher oil prices increase costs for businesses, potentially hurting corporate earnings",
+                "",
+                "### 2. **Sector-Specific Impacts**",
+                "| Sector | Typical Impact |",
+                "|--------|----------------|",
+                "| **Energy/Oil stocks** | 📈 Often rise (higher oil prices) |",
+                "| **Defense contractors** | 📈 Often rise (increased military spending) |",
+                "| **Airlines/Transport** | 📉 Often fall (higher fuel costs) |",
+                "| **Consumer discretionary** | 📉 Often fall (inflation concerns) |",
+                "| **Gold/Safe havens** | 📈 Often rise (flight to safety) |",
+                "",
+                "### 3. **Market Volatility**",
+                "- VIX (fear index) typically spikes during geopolitical tensions",
+                "- Investors often move to \"safe haven\" assets like gold, US Treasury bonds, and Swiss franc",
+                "",
+                "### 4. **Regional Markets**",
+                "- Middle Eastern stock markets often experience sharper declines",
+                "- Emerging markets may see capital outflows",
+                "",
+                "### 5. **Historical Pattern**",
+                "- Markets often initially sell off on war news but tend to recover once uncertainty decreases",
+                "- The saying goes: \"Buy the rumor, sell the news\" (or sometimes the reverse in war situations)",
+                "",
+                "---",
+                "",
+                "**Would you like me to search for more specific current news about ongoing Iran-related tensions and their market impact?** If you can provide more specific details about which conflict or timeframe you're interested in, I can try to find more targeted information.",
+                "",
+                "",
+                "================================================================================",
+                "You: quit"
+            ].join("\n"),
+
+            // ── agnet_loop_cli/weather_summary.txt ──────────────────────────
+            weather_file: [
+                "===============================================",
+                "           WEATHER SUMMARY REPORT",
+                "===============================================",
+                "Report Generated: 2026-04-10 at 11:15",
+                "",
+                "-----------------------------------------------",
+                "📍 BENGALURU, INDIA",
+                "-----------------------------------------------",
+                "   🌡️  Temperature:  33.8°C",
+                "   💨  Wind Speed:   14.5 km/h",
+                "   📝  Conditions:   Warm and breezy",
+                "",
+                "-----------------------------------------------",
+                "📍 SINGAPORE",
+                "-----------------------------------------------",
+                "   🌡️  Temperature:  27.7°C",
+                "   💨  Wind Speed:   6.9 km/h",
+                "   📝  Conditions:   Pleasant with light winds",
+                "",
+                "===============================================",
+                "               COMPARISON",
+                "===============================================",
+                "• Bengaluru is 6.1°C warmer than Singapore",
+                "• Bengaluru has stronger winds (14.5 vs 6.9 km/h)",
+                "",
+                "===============================================",
+                "                  END OF REPORT",
+                "===============================================",
+            ].join("\n"),
+
+        };
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
+
+        :root {
+            --bg: #ffffff;
+            --surface: #f5f6fa;
+            --border: #e2e4ed;
+            --accent: #5b47e0;
+            --accent2: #0e9e82;
+            --accent3: #d4700a;
+            --accent4: #2563eb;
+            --text: #111318;
+            --muted: #6b7280;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Syne', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 60px 32px;
+        }
+
+        /* ── header ── */
+        header {
+            margin-bottom: 64px;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        .badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 4px 10px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── tabs ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            animation: fadeUp 0.6s 0.1s ease both;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            color: var(--muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* ── tool cards ── */
+        .tools-grid {
+            display: grid;
+            gap: 20px;
+            animation: fadeUp 0.6s 0.2s ease both;
+        }
+
+        .tool-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .tool-card:hover {
+            border-color: var(--accent);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tool-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .icon-purple {
+            background: rgba(124, 106, 247, 0.15);
+            color: var(--accent);
+        }
+
+        .icon-teal {
+            background: rgba(62, 207, 178, 0.15);
+            color: var(--accent2);
+        }
+
+        .icon-amber {
+            background: rgba(247, 162, 106, 0.15);
+            color: var(--accent3);
+        }
+
+        .icon-blue {
+            background: rgba(96, 165, 250, 0.15);
+            color: var(--accent4);
+        }
+
+        .tool-meta {
+            flex: 1;
+        }
+
+        .tool-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .tool-file {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .chevron {
+            font-size: 12px;
+            color: var(--muted);
+            transition: transform 0.3s;
+        }
+
+        .tool-card.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .tool-body {
+            display: none;
+            padding: 0 24px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .tool-card.open .tool-body {
+            display: block;
+        }
+
+        .tool-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+            padding: 16px 0 20px;
+        }
+
+        /* ── section grid ── */
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .section-box {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+        }
+
+        .section-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .param-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .param-name {
+            font-family: var(--mono);
+            color: var(--accent2);
+            flex-shrink: 0;
+            min-width: 100px;
+        }
+
+        .param-type {
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--accent3);
+            background: rgba(247, 162, 106, 0.1);
+            padding: 1px 6px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .param-desc {
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ── flow ── */
+        .flow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .flow-step.highlight {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .flow-arrow {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* ── code block ── */
+        .code-block {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 16px;
+            font-family: var(--mono);
+            font-size: 12px;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin-bottom: 16px;
+        }
+
+        .kw {
+            color: var(--accent);
+        }
+
+        .fn {
+            color: var(--accent2);
+        }
+
+        .st {
+            color: var(--accent3);
+        }
+
+        .cm {
+            color: var(--muted);
+        }
+
+        /* ── key points ── */
+        .key-points {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .key-point {
+            display: flex;
+            gap: 10px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .key-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        /* ── panels ── */
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* ── flow view (Call Flow tab) ── */
+        .flow-view {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 40px 24px;
+            text-align: center;
+            animation: fadeUp 0.4s ease both;
+        }
+
+        .big-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+
+        .big-step {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        .big-step.you {
+            border-color: var(--accent2);
+        }
+
+        .big-step.claude {
+            border-color: var(--accent);
+        }
+
+        .big-step.tool {
+            border-color: var(--accent3);
+        }
+
+        .big-step-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .you .big-step-label {
+            color: var(--accent2);
+        }
+
+        .claude .big-step-label {
+            color: var(--accent);
+        }
+
+        .tool .big-step-label {
+            color: var(--accent3);
+        }
+
+        .big-step-text {
+            font-size: 12px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .big-arrow {
+            font-size: 20px;
+            color: var(--muted);
+            padding: 0 8px;
+        }
+
+        .flow-note {
+            margin-top: 32px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .flow-note span {
+            color: var(--accent);
+        }
+
+        /* ── sample output placeholder ── */
+        .output-wrap {
+            margin-top: 20px;
+        }
+
+        .output-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .output-label::after {
+            content: '← edit this';
+            font-size: 9px;
+            color: var(--accent3);
+            opacity: 0.6;
+        }
+
+        .output-block {
+            background: var(--surface);
+            border: 1px dashed var(--border);
+            border-radius: 6px;
+            padding: 16px 20px;
+            font-family: var(--mono);
+            font-size: 12px;
+            line-height: 1.8;
+            color: var(--accent2);
+            white-space: pre;
+            overflow-x: auto;
+            min-height: 60px;
+        }
+
+        /* ── playground card (used in Playgrounds tab) ── */
+        .pg-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .pg-card:hover {
+            border-color: var(--accent2);
+        }
+
+        .pg-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .pg-body {
+            display: none;
+            padding: 0 24px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .pg-card.open .pg-body {
+            display: block;
+        }
+
+        .pg-card.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .pg-desc {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.7;
+            padding: 16px 0 20px;
+        }
+
+        .concepts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .concept-tag {
+            font-family: var(--mono);
+            font-size: 10px;
+            padding: 4px 10px;
+            border-radius: 3px;
+            border: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .big-flow {
+                flex-direction: column;
+            }
+
+            .big-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <header>
+            <div class="badge">ai-agents / playground</div>
+            <h1>Tool <span>Reference</span></h1>
+            <p class="subtitle">
+                tools/calculator.py &nbsp;·&nbsp; tools/weather.py &nbsp;·&nbsp;
+                tools/fileops.py &nbsp;·&nbsp; tools/websearch.py
+            </p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showPanel('tools', this)">Tools</button>
+            <button class="tab" onclick="showPanel('playgrounds', this)">Playgrounds</button>
+            <button class="tab" onclick="showPanel('flow', this)">Call Flow</button>
+            <button class="tab" onclick="showPanel('notes', this)">Key Points</button>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             TOOLS PANEL
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="panel active" id="panel-tools">
+            <div class="tools-grid">
+
+                <!-- ── Calculator ── -->
+                <div class="tool-card" id="card-calc">
+                    <div class="tool-header" onclick="toggle('card-calc')">
+                        <div class="tool-icon icon-purple">#</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">calculator</div>
+                            <div class="tool-file">tools/calculator.py</div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-desc">
+                            Evaluates math expressions safely using Python's AST parser — no <code>eval()</code>.
+                            Claude extracts the expression from natural language and returns structured JSON.
+                            Your code runs the AST evaluation locally.
+                        </div>
+
+                        <div class="flow" style="margin-bottom:16px">
+                            <div class="flow-step">"347 boxes × 28 items"</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">Claude extracts</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">"347 * 28 + 4521"</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">AST eval</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">"14237"</div>
+                        </div>
+
+                        <div class="section-grid">
+                            <div class="section-box">
+                                <div class="section-label">Input</div>
+                                <div class="param-row">
+                                    <div class="param-name">expression</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Math expression e.g. "(347 * 28) + 4521"</div>
+                                </div>
+                            </div>
+                            <div class="section-box">
+                                <div class="section-label">Output</div>
+                                <div class="param-row">
+                                    <div class="param-name">result</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Computed number as string e.g. "14237"</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">on error</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">"Error: ..."</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-box" style="margin-bottom:16px">
+                            <div class="section-label">Implementation — AST, not eval()</div>
+                            <div class="code-block">
+                                <span class="kw">def</span> <span class="fn">calculator</span>(expression: str) ->
+                                str:<br>
+                                &nbsp;&nbsp;tree = ast.<span class="fn">parse</span>(expression, mode=<span
+                                    class="st">"eval"</span>)<br>
+                                &nbsp;&nbsp;<span class="kw">return</span> <span
+                                    class="fn">str</span>(_eval_node(tree.body))<br>
+                                <br>
+                                <span class="cm"># Supported nodes: Constant, BinOp (+−×÷**), UnaryOp (−)</span><br>
+                                <span class="cm"># No builtins, no imports, no code execution</span>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>AST parsing — no arbitrary code execution possible</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Claude's job: natural language → expression string</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>All errors returned as strings, never raises</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Weather ── -->
+                <div class="tool-card" id="card-weather">
+                    <div class="tool-header" onclick="toggle('card-weather')">
+                        <div class="tool-icon icon-teal">~</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">get_weather</div>
+                            <div class="tool-file">tools/weather.py</div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-desc">
+                            Fetches live weather using Open-Meteo (free, no API key). Two internal HTTP calls:
+                            geocoding to resolve city → lat/lng, then weather forecast.
+                        </div>
+
+                        <div class="flow" style="margin-bottom:16px">
+                            <div class="flow-step">"weather in Bengaluru"</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">Claude extracts city</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">geocode API</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">weather API</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">result string</div>
+                        </div>
+
+                        <div class="section-grid">
+                            <div class="section-box">
+                                <div class="section-label">Input</div>
+                                <div class="param-row">
+                                    <div class="param-name">city</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">City name e.g. "Bengaluru", "London"</div>
+                                </div>
+                            </div>
+                            <div class="section-box">
+                                <div class="section-label">Output</div>
+                                <div class="param-row">
+                                    <div class="param-name">result</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">"Location: X, Temperature: Y°C, Wind: Z km/h"</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">on error</div>
+                                    <div class="param-type">raises</div>
+                                    <div class="param-desc">TimeoutError / ConnectionError / ValueError</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-box" style="margin-bottom:16px">
+                            <div class="section-label">APIs used (no key required)</div>
+                            <div class="code-block">
+                                <span class="cm"># Step 1 — geocoding</span><br>
+                                geocoding-api.open-meteo.com/v1/search?name={city}<br>
+                                <br>
+                                <span class="cm"># Step 2 — weather</span><br>
+                                api.open-meteo.com/v1/forecast?lat={lat}&amp;lon={lon}&amp;current_weather=true
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Parameter name <code>city</code> must match schema — <code>**tool_input</code>
+                                    unpacking is strict</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>5-second timeout on both HTTP calls</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><code>socket.timeout</code> caught separately from <code>URLError</code> — order
+                                    matters</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Fileops ── -->
+                <div class="tool-card" id="card-fileops">
+                    <div class="tool-header" onclick="toggle('card-fileops')">
+                        <div class="tool-icon icon-amber">f</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">fileops</div>
+                            <div class="tool-file">tools/fileops.py</div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-desc">
+                            Three file operations: write (overwrite), read, append. Claude decides which operation
+                            based on user intent and generates the filename and content. User message must be
+                            specific — vague requests cause Claude to ask instead of acting.
+                        </div>
+
+                        <div class="section-grid">
+                            <div class="section-box">
+                                <div class="section-label">Functions</div>
+                                <div class="param-row">
+                                    <div class="param-name">write_file</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">filename, content → overwrites file</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">read_file</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">filename → returns file contents</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">append_file</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">filename, content → adds to existing file</div>
+                                </div>
+                            </div>
+                            <div class="section-box">
+                                <div class="section-label">Errors handled</div>
+                                <div class="param-row">
+                                    <div class="param-name">PermissionError</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">No permission to read/write</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">FileNotFoundError</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">File doesn't exist (read)</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">IsADirectoryError</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Path is a folder not a file</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Library is generic — path restriction belongs in the caller (tool router), not here
+                                </div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>All errors returned as strings — never raises, caller decides what to do</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><code>write_file</code> overwrites — use <code>append_file</code> to add to
+                                    existing</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Web Search ── -->
+                <div class="tool-card" id="card-websearch">
+                    <div class="tool-header" onclick="toggle('card-websearch')">
+                        <div class="tool-icon icon-blue">@</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">web_search</div>
+                            <div class="tool-file">tools/websearch.py</div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-desc">
+                            Searches the web using the DuckDuckGo Instant Answer API — free, no API key needed.
+                            Returns the best available answer: AbstractText → Answer → top 3 RelatedTopics.
+                            Works best for factual queries; not a full web scraper.
+                        </div>
+
+                        <div class="flow" style="margin-bottom:16px">
+                            <div class="flow-step">"capital of France"</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">Claude extracts query</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">DuckDuckGo API</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">best answer string</div>
+                        </div>
+
+                        <div class="section-grid">
+                            <div class="section-box">
+                                <div class="section-label">Input</div>
+                                <div class="param-row">
+                                    <div class="param-name">query</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Search query e.g. "Python GIL explained"</div>
+                                </div>
+                            </div>
+                            <div class="section-box">
+                                <div class="section-label">Output priority</div>
+                                <div class="param-row">
+                                    <div class="param-name">AbstractText</div>
+                                    <div class="param-type">1st</div>
+                                    <div class="param-desc">Wikipedia-style summary (up to 500 chars)</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">Answer</div>
+                                    <div class="param-type">2nd</div>
+                                    <div class="param-desc">Direct factual answer</div>
+                                </div>
+                                <div class="param-row">
+                                    <div class="param-name">RelatedTopics</div>
+                                    <div class="param-type">3rd</div>
+                                    <div class="param-desc">Top 3 related snippets joined by " | "</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-box" style="margin-bottom:16px">
+                            <div class="section-label">API used</div>
+                            <div class="code-block">
+                                <span class="cm"># DuckDuckGo Instant Answer — no key, no rate limit (reasonable
+                                    use)</span><br>
+                                GET api.duckduckgo.com/?q={query}&amp;format=json&amp;no_html=1<br>
+                                <br>
+                                <span class="cm"># Uses requests library (not stdlib urllib)</span><br>
+                                <span class="cm"># Add requests to requirements.txt if not present</span>
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Depends on <code>requests</code> — add to <code>requirements.txt</code> if missing
+                                </div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Best for facts, definitions, Wikipedia topics — not full web search</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>All exceptions caught and returned as "Search error: ..." — never raises</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             PLAYGROUNDS PANEL
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-playgrounds">
+
+            <!-- ── single_tool ── -->
+            <div class="pg-card" id="pg-single">
+                <div class="pg-header" onclick="togglePg('pg-single')">
+                    <div class="tool-icon icon-purple">1</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">single_tool_call</div>
+                        <div class="tool-file">playground/single_tool/single_tool_call.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        The simplest possible tool-calling script. One tool (calculator), exactly 2 API calls,
+                        hardcoded user message. Shows the core Call 1 → execute locally → Call 2 cycle with
+                        no routing logic. Start here.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">2-call cycle</span>
+                        <span class="concept-tag">tool_use block extraction</span>
+                        <span class="concept-tag">stateless — full history re-sent</span>
+                        <span class="concept-tag">safe next(..., None) guard</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">Flow</div>
+                        <div class="code-block">
+                            Call 1: user message → Claude → stop_reason="tool_use"<br>
+                            extract tool_use_block (name, input, id)<br>
+                            run cal.calculator(expression) locally<br>
+                            <br>
+                            Call 2: [user msg] + [call 1 response] + [tool_result]<br>
+                            → Claude → stop_reason="end_turn" → final text
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-single-tool"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── multi_tool ── -->
+            <div class="pg-card" id="pg-multi">
+                <div class="pg-header" onclick="togglePg('pg-multi')">
+                    <div class="tool-icon icon-teal">3</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">multi_tool_call</div>
+                        <div class="tool-file">playground/multi_tool/multi_tool_call.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Runs 3 user messages in a loop — calculator, weather, file write. Introduces a tool
+                        router (<code>execute_tool</code>) that dispatches by <code>tool_name</code>. Each
+                        message is still stateless (fresh conversation per message). Shows conditional
+                        system prompts via <code>anthropic.NOT_GIVEN</code>.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">tool router pattern</span>
+                        <span class="concept-tag">3 tools in one script</span>
+                        <span class="concept-tag">stateless per-message loop</span>
+                        <span class="concept-tag">conditional system prompt</span>
+                        <span class="concept-tag">anthropic.NOT_GIVEN</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">Tool Router</div>
+                        <div class="code-block">
+                            <span class="kw">def</span> <span class="fn">execute_tool</span>(tool_name, tool_input):<br>
+                            &nbsp;&nbsp;<span class="kw">if</span> tool_name == <span class="st">"calculator"</span>:
+                            <span class="kw">return</span> calc.<span class="fn">calculator</span>(**tool_input)<br>
+                            &nbsp;&nbsp;<span class="kw">elif</span> tool_name == <span class="st">"get_weather"</span>:
+                            <span class="kw">return</span> weather.<span class="fn">get_weather</span>(**tool_input)<br>
+                            &nbsp;&nbsp;<span class="kw">elif</span> tool_name == <span class="st">"write_file"</span>:
+                            <span class="kw">return</span> fileops.<span class="fn">write_file</span>(**tool_input)
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-multi-tool"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── agent_loop_cli ── -->
+            <div class="pg-card" id="pg-agent">
+                <div class="pg-header" onclick="togglePg('pg-agent')">
+                    <div class="tool-icon icon-blue">∞</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">agent_loop_cli</div>
+                        <div class="tool-file">playground/agnet_loop_cli/agent_loop_cli.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        A full agentic loop with an interactive CLI. Claude drives — it decides when it's done
+                        (<code>stop_reason="end_turn"</code>) and can call multiple tools in one session.
+                        Message history grows within a session (stateful within a query, stateless across
+                        queries). Supports all 4 tools: web_search, calculator, write_file, get_weather.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">agentic loop (max 15 iterations)</span>
+                        <span class="concept-tag">Claude drives stop condition</span>
+                        <span class="concept-tag">stateful within a query</span>
+                        <span class="concept-tag">4 tools</span>
+                        <span class="concept-tag">interactive CLI (REPL)</span>
+                        <span class="concept-tag">dict-based router</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">Loop structure</div>
+                        <div class="code-block">
+                            <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(15):
+                            <span class="cm"># max iterations — safety cap</span><br>
+                            &nbsp;&nbsp;response = client.messages.<span class="fn">create</span>(...,
+                            messages=messages)<br>
+                            &nbsp;&nbsp;messages.<span class="fn">append</span>(assistant_turn)<br>
+                            <br>
+                            &nbsp;&nbsp;<span class="kw">if</span> stop_reason == <span class="st">"end_turn"</span>:
+                            <span class="kw">return</span> final_text<br>
+                            &nbsp;&nbsp;<span class="kw">if</span> stop_reason == <span
+                                class="st">"tool_use"</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;execute all tool blocks in response<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;append all results → messages → loop
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-agent-loop"></pre>
+                    </div>
+
+                    <!-- Generated file: agnet_loop_cli/weather_summary.txt — edit SAMPLES.weather_file above -->
+                    <div class="output-wrap" style="margin-top:16px">
+                        <div class="output-label">Generated File &nbsp;<span
+                                style="color:var(--accent3);font-size:9px;opacity:0.7">← weather_summary.txt</span>
+                        </div>
+                        <pre class="output-block" id="out-weather-file"></pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             CALL FLOW PANEL
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-flow">
+            <div class="flow-view">
+                <div class="big-flow">
+                    <div class="big-step you">
+                        <div class="big-step-label">You</div>
+                        <div class="big-step-text">natural language<br>user message</div>
+                    </div>
+                    <div class="big-arrow">→</div>
+                    <div class="big-step claude">
+                        <div class="big-step-label">Call 1 — Claude</div>
+                        <div class="big-step-text">picks tool<br>extracts input</div>
+                    </div>
+                    <div class="big-arrow">→</div>
+                    <div class="big-step you">
+                        <div class="big-step-label">You</div>
+                        <div class="big-step-text">route by tool_name<br>execute function</div>
+                    </div>
+                    <div class="big-arrow">→</div>
+                    <div class="big-step tool">
+                        <div class="big-step-label">Tool</div>
+                        <div class="big-step-text">pure Python<br>returns string</div>
+                    </div>
+                    <div class="big-arrow">→</div>
+                    <div class="big-step claude">
+                        <div class="big-step-label">Call 2 — Claude</div>
+                        <div class="big-step-text">formats result<br>natural language</div>
+                    </div>
+                </div>
+
+                <div class="flow-note">
+                    <span>Call 1</span> — Claude reads tools[] schema, picks tool, returns structured JSON input<br>
+                    <span>You</span> &nbsp;&nbsp;&nbsp;— route by tool_name, execute Python function locally<br>
+                    <span>Call 2</span> — re-send full history + tool_result, Claude forms final answer<br>
+                    <br>
+                    Claude has <span>no memory</span> between calls — full conversation history re-sent every time<br>
+                    Agent loop differs: history <span>accumulates</span> within a query, Claude signals done via
+                    end_turn
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════
+             KEY POINTS PANEL
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="panel" id="panel-notes">
+            <div class="tools-grid">
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-purple">!</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">Parameter naming — critical</div>
+                            <div class="tool-file">**tool_input unpacking rule</div>
+                        </div>
+                    </div>
+                    <div class="tool-body" style="display:block; padding-top:16px">
+                        <div class="code-block">
+                            <span class="cm"># schema says "city" → function must also say "city"</span><br>
+                            <span class="kw">def</span> <span class="fn">get_weather</span>(city: str) <span
+                                class="cm"># ✅ matches</span><br>
+                            <span class="kw">def</span> <span class="fn">get_weather</span>(location: str) <span
+                                class="cm"># ❌ crashes with **unpacking</span><br>
+                            <br>
+                            <span class="cm"># positional always works — name irrelevant</span><br>
+                            weather.<span class="fn">get_weather</span>(<span class="st">"Bengaluru"</span>) <span
+                                class="cm"># ✅</span><br>
+                            weather.<span class="fn">get_weather</span>(**{<span class="st">"city"</span>: <span
+                                class="st">"Bengaluru"</span>}) <span class="cm"># ✅ name must match</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-teal">!</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">Tool selection priority</div>
+                            <div class="tool-file">how Claude picks the right tool</div>
+                        </div>
+                    </div>
+                    <div class="tool-body" style="display:block; padding-top:16px">
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><strong>1. tool name</strong> — strongest signal. "calculator" alone is enough for
+                                    math</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><strong>2. tool description</strong> — "Performs basic arithmetic. Use for any
+                                    calculations"</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><strong>3. property description</strong> — weakest, just guides output format e.g.
+                                    "(23 * 4) + 17"</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Claude never sees your Python functions — only the JSON schema</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-amber">!</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">Safe response extraction</div>
+                            <div class="tool-file">never assume content exists</div>
+                        </div>
+                    </div>
+                    <div class="tool-body" style="display:block; padding-top:16px">
+                        <div class="code-block">
+                            <span class="cm"># tool_use block — safe default, no StopIteration</span><br>
+                            tool_use_block = <span class="fn">next</span>(<br>
+                            &nbsp;&nbsp;(b <span class="kw">for</span> b <span class="kw">in</span> response.content
+                            <span class="kw">if</span> b.type == <span class="st">"tool_use"</span>),<br>
+                            &nbsp;&nbsp;<span class="kw">None</span><br>
+                            )<br>
+                            <br>
+                            <span class="cm"># text block</span><br>
+                            text_block = <span class="fn">next</span>(<br>
+                            &nbsp;&nbsp;(b <span class="kw">for</span> b <span class="kw">in</span> response.content
+                            <span class="kw">if</span> b.type == <span class="st">"text"</span>),<br>
+                            &nbsp;&nbsp;<span class="kw">None</span><br>
+                            )<br>
+                            text = text_block.text <span class="kw">if</span> text_block <span class="kw">else</span>
+                            <span class="st">"(no text)"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon icon-blue">!</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">Stateless vs stateful</div>
+                            <div class="tool-file">single/multi_tool vs agent_loop</div>
+                        </div>
+                    </div>
+                    <div class="tool-body" style="display:block; padding-top:16px">
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><strong>single / multi tool</strong> — each message is a fresh conversation. Full
+                                    history re-sent but only for that one exchange.</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div><strong>agent loop</strong> — history accumulates across tool calls within a query.
+                                    Claude sees everything it has done so far.</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Agent loop stops when Claude returns <code>stop_reason="end_turn"</code> — it
+                                    decides when the task is complete.</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Safety cap: max 15 iterations — prevents infinite loops if Claude keeps calling
+                                    tools.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div><!-- /wrap -->
+
+    <script>
+        function toggle(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        function togglePg(id) {
+            document.getElementById(id).classList.toggle('open');
+        }
+
+        function showPanel(name, btn) {
+            document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('panel-' + name).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        // Inject sample outputs from the SAMPLES block at the top of <head>
+        document.getElementById('out-single-tool').textContent = SAMPLES.single_tool;
+        document.getElementById('out-multi-tool').textContent = SAMPLES.multi_tool;
+        document.getElementById('out-agent-loop').textContent = SAMPLES.agent_loop;
+        document.getElementById('out-weather-file').textContent = SAMPLES.weather_file;
+    </script>
+</body>
+
+</html>

@@ -138,3 +138,4 @@ for message in user_messages:
 
     text_block = next((b for b in final_response.content if b.type == "text"), None)
     print("\nFinal answer:", text_block.text if text_block else "(no text response)")
+    print("\n" + "=" * 80)
