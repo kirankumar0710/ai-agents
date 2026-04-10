@@ -1,12 +1,16 @@
 import anthropic
 import sys
+import os
 from lib import key
+from lib import config
 from tools import calculator as cal
 
 try:
-    api_key = key.load_api_key("../../../../key/claude_api_key.txt")
+    cfg = config.load_config()
+    api_key_path = cfg.require("claude.api.key_file")
+    api_key = key.load_api_key(api_key_path)
 except (FileNotFoundError, PermissionError, ValueError) as e:
-    print(f"Error: {e}")
+    print(f"Error: {e}", file=sys.stderr)
     sys.exit(1)
 
 client = anthropic.Anthropic(api_key=api_key)

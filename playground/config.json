@@ -1,0 +1,7 @@
+{
+    "claude": {
+        "api": {
+            "key_file": "${CLAUDE_API_KEY_FILE}"
+        }
+    }
+}

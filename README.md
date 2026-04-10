@@ -18,6 +18,13 @@ Learning and building AI agents using Claude (Anthropic).
 | `single_tool/` | One tool, basic call 1 → execute → call 2 cycle |
 | `multi_tool/` | Multiple tools, routing by tool_name |
 
+Export them before running:
+
+```bash
+export CONFIG_FILE=$HOME/projects/ai-agent/playground/config.json
+export CLAUDE_API_KEY_FILE=/path/to/your/claude_api.key
+```
+
 ## Concepts Covered
 
 - Tool calling — Claude decides, you execute
