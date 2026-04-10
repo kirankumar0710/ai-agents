@@ -1,3 +1,4 @@
-# keep folder
+# All project files are intentionally excluded.
+# Add a nested .gitignore per project if you want to track specific files.
 *
 !.gitignore
