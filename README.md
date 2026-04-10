@@ -28,27 +28,41 @@ Learning and building AI agents using Claude (Anthropic).
 ## Setup
 
 1. Clone the repo
+```
    git clone https://github.com/yourname/ai-agent.git
    cd ai-agent
+```
 
 2. Create virtual environment
+```
    python3 -m venv venv
+```
 
 3. Activate virtual environment
+```
    source venv/bin/activate        # Mac / Linux
    venv\Scripts\activate           # Windows
+```
 
 4. Install dependencies
-   pip install -r requirements.txt
+```
+   python3 -m pip install -r requirements.txt
+```
 
 5. Install dev tools
-   pip install -r requirements-dev.txt
+```
+   python3 -m pip install -r requirements-dev.txt
+```
 
 6. Install project as package (run once)
-   pip install -e .
+```
+   python3 -m pip install -e .
+```
 
 7. Add your API key — store it outside this repo
+```
    /path/to/keys/claude_api_key.txt
+```
 
 ## VS Code Extensions (install these)
 
