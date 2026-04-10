@@ -1,0 +1,25 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/venv/bin/python3",
+
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+
+    "python.formatting.provider": "black",
+
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.ruffEnabled": true,
+
+    "notebook.formatOnSave.enabled": true,
+
+    "files.exclude": {
+        "venv/": true,
+        "**/__pycache__": true,
+        "**/*.egg-info": true,
+        "ai_agent.egg-info/": true
+    }
+}
