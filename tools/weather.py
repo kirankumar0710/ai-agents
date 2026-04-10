@@ -20,7 +20,7 @@ def get_weather(city: str) -> str:
             geo_data = json.loads(response.read().decode())
 
         if "results" not in geo_data or len(geo_data["results"]) == 0:
-            return ValueError(f"Location '{city}' not found")
+            raise ValueError(f"Location '{city}' not found")
 
         result = geo_data["results"][0]
         latitude = result.get("latitude")
@@ -69,6 +69,3 @@ def get_weather(city: str) -> str:
 
     except json.JSONDecodeError as e:
         raise ValueError("Failed to parse API response") from e
-
-    except Exception:
-        raise

@@ -121,4 +121,5 @@ for message in user_messages:
         ],
     )
 
-    print("\nFinal answer:", final_response.content[0].text)
+    text_block = next((b for b in final_response.content if b.type == "text"), None)
+    print("\nFinal answer:", text_block.text if text_block else "(no text response)")

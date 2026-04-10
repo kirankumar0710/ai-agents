@@ -1,4 +1,5 @@
-black
-pylint
-ruff
-pipreqs
+black>=24.0
+ruff>=0.4
+pylint>=3.0
+pipreqs>=0.5
+

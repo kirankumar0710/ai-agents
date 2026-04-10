@@ -1,7 +1,30 @@
+import ast, operator
+
+_OPS = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv,
+    ast.Pow: operator.pow,
+    ast.USub: operator.neg,
+}
+
+
+def _eval_node(node):
+    if isinstance(node, ast.Constant):
+        if not isinstance(node.value, (int, float, complex)):
+            raise ValueError(f"Non-numeric constant: {node.value!r}")
+        return node.value
+    if isinstance(node, ast.BinOp):
+        return _OPS[type(node.op)](_eval_node(node.left), _eval_node(node.right))
+    if isinstance(node, ast.UnaryOp):
+        return _OPS[type(node.op)](_eval_node(node.operand))
+    raise ValueError(f"Unsupported expression: {ast.dump(node)}")
+
+
 def calculator(expression: str) -> str:
-    print(f"input expression: {expression}")
     try:
-        result = eval(expression)  # Fine for learning; sanitize in prod
-        return str(result)
+        tree = ast.parse(expression, mode="eval")
+        return str(_eval_node(tree.body))
     except Exception as e:
         return f"Error: {e}"

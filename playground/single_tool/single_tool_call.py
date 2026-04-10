@@ -79,7 +79,11 @@ print("Stop reason:", response.stop_reason)  # tool_use
 print("Response content:", response.content)
 
 # Extract what Claude decided
-tool_use_block = next(b for b in response.content if b.type == "tool_use")
+tool_use_block = next((b for b in response.content if b.type == "tool_use"), None)
+if tool_use_block is None:
+    print("Claude did not call a tool:", response.content[0].text)
+    sys.exit
+
 tool_name = tool_use_block.name  # "calculator"  — Claude picked this
 tool_input = (
     tool_use_block.input
@@ -90,9 +94,11 @@ print(f"\nClaude wants to call: {tool_name}")
 print(f"With input: {tool_input}")
 
 # YOU execute the tool Claude picked — Claude cannot run code itself
-if tool_name == "calculator":
-    tool_result = cal.calculator(tool_input["expression"])
-print(f"Tool result: {tool_result}")
+tool_result = (
+    cal.calculator(tool_input["expression"])
+    if tool_name == "calculator"
+    else f"Unknown tool: {tool_name}"
+)
 
 # -------------------------------------------------------------
 # CALL 2 — Send tool result back, Claude forms final answer
