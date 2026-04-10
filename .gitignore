@@ -1,0 +1,52 @@
+# ----------------------
+# Python cache
+# ----------------------
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ----------------------
+# Virtual environments
+# ----------------------
+venv/
+.env/
+.venv/
+
+# ----------------------
+# Build / packaging
+# ----------------------
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ----------------------
+# Tooling caches
+# ----------------------
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# ----------------------
+# OS / editor junk
+# ----------------------
+.DS_Store
+.vscode/
+.idea/
+
+# ----------------------
+# Logs (if any)
+# ----------------------
+*.log
+
+# ----------------------
+# Environment variables
+# ----------------------
+.env
+.env.*
+
+# ----------------------
+# Allow important files
+# ----------------------
+!requirements.txt
+!requirements-dev.txt
