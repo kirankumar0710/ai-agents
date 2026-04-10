@@ -1,4 +1,4 @@
-# AI Agent
+# AI Agents
 
 Learning and building AI agents using Claude (Anthropic).
 
@@ -21,7 +21,7 @@ Learning and building AI agents using Claude (Anthropic).
 Export them before running:
 
 ```bash
-export CONFIG_FILE=$HOME/projects/ai-agent/playground/config.json
+export CONFIG_FILE=$HOME/projects/ai-agents/playground/config.json
 export CLAUDE_API_KEY_FILE=/path/to/your/claude_api.key
 ```
 
