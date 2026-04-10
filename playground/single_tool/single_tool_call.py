@@ -84,12 +84,8 @@ print("Response content:", response.content)
 # Extract what Claude decided
 tool_use_block = next((b for b in response.content if b.type == "tool_use"), None)
 if tool_use_block is None:
-    print(
-        (
-            "\nClaude did not call a tool: ",
-            "unknown" if not response.content else response.e.content[0].text,
-        ),
-    )
+    text = next((b.text for b in response.content if b.type == "text"), "(no text)")
+    print("Claude did not call a tool:", text)
     sys.exit(1)
 
 tool_name = tool_use_block.name  # "calculator"  — Claude picked this
@@ -137,7 +133,5 @@ final_response = client.messages.create(
     ],
 )
 
-print(
-    "\nFinal answer: ",
-    "unknown" if not final_response.content else final_response.content[0].text,
-)
+text_block = next((b for b in final_response.content if b.type == "text"), None)
+print("\nFinal answer:", text_block.text if text_block else "(no text response)")
