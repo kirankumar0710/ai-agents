@@ -2,3 +2,4 @@ anthropic==0.93.0
 langgraph
 langchain-anthropic
 langchain-core
+requests>=2.28.0

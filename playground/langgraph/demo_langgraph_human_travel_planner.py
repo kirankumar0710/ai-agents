@@ -4,7 +4,6 @@ from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
-from langchain_core.tools import tool
 
 
 from tools import flight
@@ -29,7 +28,7 @@ tool_list = [
 ]
 tools_by_name = {t.name: t for t in tool_list}
 
-BOOKING_TOOLS = {"book_flight", "book_hotel"}  # These need human approval
+BOOKING_TOOLS = {"mock_book_flight", "mock_book_hotel"}  # These need human approval
 
 
 # ─── LLM ──────────────────────────────────────────────────────────

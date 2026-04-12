@@ -7,7 +7,7 @@ def mock_search_flights(origin: str, destination: str, date: str) -> str:
     Args:
         origin: Departure city (e.g. 'Delhi')
         destination: Arrival city (e.g. 'Tokyo')
-        date: Travel date (e.g. '2025-06-15')
+        date: Travel date (e.g. '2026-06-15')
     """
     # Stub — replace with real flight API (Amadeus, Skyscanner)
     return f"""
