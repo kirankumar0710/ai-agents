@@ -1,11 +1,9 @@
-import anthropic
 from typing import TypedDict, Annotated
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage, SystemMessage
 from langchain_anthropic import ChatAnthropic
-from langchain_core.tools import tool
-import json
+
 
 from tools import calculator as calc
 from tools import fileops

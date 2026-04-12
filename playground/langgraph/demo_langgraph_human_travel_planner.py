@@ -174,9 +174,6 @@ def run_trip_planner():
                 )
                 for step in app.stream(None, config=config, stream_mode="values"):
                     last = step["messages"][-1]
-                    print(
-                        f"DEBUG: type={type(last).__name__}, content={str(last.content)[:50]}, tool_calls={getattr(last, 'tool_calls', [])}"
-                    )  # temp debug
 
                     if type(last).__name__ == "AIMessage":
                         if last.content and not last.tool_calls:  # empty list = falsy
