@@ -1,5 +1,5 @@
-{
-  "lines": [
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['lg_basic'] = [
     "==================================================",
     "LangGraph Agent Starting",
     "==================================================",
@@ -26,6 +26,5 @@
     "- 3.12 × 1000 = 3,120.0",
     "- Summary saved to python_summary.txt ✅",
     "",
-    "✅ Agent finished"
-  ]
-}
+    "✅ Agent finished",
+].join("\n");

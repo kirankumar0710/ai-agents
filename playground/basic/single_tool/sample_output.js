@@ -1,5 +1,5 @@
-{
-  "lines": [
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['single_tool'] = [
     "Stop reason: tool_use",
     "Response content: [TextBlock(citations=None, ",
     " text='I need to calculate the total number of items: (347 boxes × 28 items per box) + 4521 loose items.',",
@@ -17,6 +17,5 @@
     "Here's the breakdown:",
     "- Items in boxes: 347 × 28 = 9,716",
     "- Loose items: 4,521",
-    "- **Total: 14,237**"
-  ]
-}
+    "- **Total: 14,237**",
+].join("\n");

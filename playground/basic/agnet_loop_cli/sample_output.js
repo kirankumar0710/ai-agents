@@ -1,5 +1,5 @@
-{
-  "lines": [
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['agent_loop'] = [
     "🚀 CLI Agent — Claude + Tool Use",
     "Type 'quit' to exit",
     "",
@@ -101,10 +101,9 @@
     "",
     "---",
     "",
-    "**Would you like me to search for more specific current news about ongoing Iran-related tensions and their market impact?** If you can provide more specific details about which conflict or timeframe you're interested in, I can try to find more targeted information.",
+    "**Would you like me to search for more specific current news about ongoing Iran-related tensions and their market impact?**",
     "",
     "",
     "================================================================================",
-    "You: quit"
-  ]
-}
+    "You: quit",
+].join("\n");

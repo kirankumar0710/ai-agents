@@ -1,5 +1,5 @@
-{
-  "lines": [
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['lg_trip'] = [
     "🌍 Trip Planner Agent",
     "==================================================",
     "Type your travel request. Type 'quit' to exit.",
@@ -43,6 +43,5 @@
     "",
     "Safe travels! 🗾",
     "",
-    "You: quit"
-  ]
-}
+    "You: quit",
+].join("\n");

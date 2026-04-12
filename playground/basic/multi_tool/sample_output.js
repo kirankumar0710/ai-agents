@@ -1,5 +1,5 @@
-{
-  "lines": [
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['multi_tool'] = [
     "Claude wants to call: calculator",
     "With input: {'expression': '347 * 28 + 4521'}",
     "",
@@ -33,6 +33,5 @@
     "",
     "Final answer: Done! I've written \"Hello from Claude!\" to the file `output.txt`. The file now contains your message.",
     "",
-    "================================================================================"
-  ]
-}
+    "================================================================================",
+].join("\n");

@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Playground — Tool Reference</title>
 
-    <!-- Sample outputs are loaded dynamically via fetch() at the bottom of the page. -->
+    <!-- Sample outputs — loaded from co-located .js files, works with file:// (no server needed) -->
+    <script src="basic/single_tool/sample_output.js"></script>
+    <script src="basic/multi_tool/sample_output.js"></script>
+    <script src="basic/agnet_loop_cli/sample_output.js"></script>
+    <script src="basic/agnet_loop_cli/weather_file_output.js"></script>
+    <script src="langgraph/demo_langgraph_output.js"></script>
+    <script src="langgraph/demo_langgraph_human_travel_planner_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1585,26 +1591,13 @@
             btn.classList.add('active');
         }
 
-        // Load sample outputs from co-located JSON files.
-        // Requires HTTP server: cd playground && python -m http.server 8080
-        async function loadSample(elementId, jsonPath) {
-            try {
-                const res = await fetch(jsonPath);
-                if (!res.ok) throw new Error(res.statusText);
-                const data = await res.json();
-                document.getElementById(elementId).textContent = data.lines.join('\n');
-            } catch (e) {
-                document.getElementById(elementId).textContent =
-                    '⚠ Could not load sample — serve via HTTP server.\n  cd playground && python -m http.server 8080';
-            }
-        }
-
-        loadSample('out-single-tool',  'basic/single_tool/sample_output.json');
-        loadSample('out-multi-tool',   'basic/multi_tool/sample_output.json');
-        loadSample('out-agent-loop',   'basic/agnet_loop_cli/sample_output.json');
-        loadSample('out-weather-file', 'basic/agnet_loop_cli/weather_file_output.json');
-        loadSample('out-lg-basic',     'langgraph/demo_langgraph_output.json');
-        loadSample('out-lg-trip',      'langgraph/demo_langgraph_human_travel_planner_output.json');
+        // Inject sample outputs — populated by the <script src="..."> tags in <head>
+        document.getElementById('out-single-tool').textContent  = window.SAMPLES['single_tool']  || '';
+        document.getElementById('out-multi-tool').textContent   = window.SAMPLES['multi_tool']   || '';
+        document.getElementById('out-agent-loop').textContent   = window.SAMPLES['agent_loop']   || '';
+        document.getElementById('out-weather-file').textContent = window.SAMPLES['weather_file'] || '';
+        document.getElementById('out-lg-basic').textContent     = window.SAMPLES['lg_basic']     || '';
+        document.getElementById('out-lg-trip').textContent      = window.SAMPLES['lg_trip']      || '';
     </script>
 </body>
 
