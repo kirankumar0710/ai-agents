@@ -1,3 +1,6 @@
+from langchain_core.tools import tool
+
+
 def write_file(filename: str, content: str) -> str:
     try:
         with open(filename, "w") as f:
@@ -32,3 +35,9 @@ def append_file(filename: str, content: str) -> str:
         return f"Error: No permission to write to '{filename}'"
     except Exception as e:
         return f"Error appending file: {e}"
+
+
+@tool
+def write_file_tool(filename: str, content: str) -> str:
+    """Write content to a file."""
+    return write_file(filename, content)

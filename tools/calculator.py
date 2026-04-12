@@ -1,5 +1,6 @@
 import ast
 import operator
+from langchain_core.tools import tool
 
 _OPS = {
     ast.Add: operator.add,
@@ -29,3 +30,9 @@ def calculator(expression: str) -> str:
         return str(_eval_node(tree.body))
     except Exception as e:
         return f"Error: {e}"
+
+
+@tool
+def calculator_tool(expression: str) -> str:
+    """Evaluate a mathematical expression. Input: a string like '2 + 2' or '100 * 1.08'."""
+    return calculator(expression)

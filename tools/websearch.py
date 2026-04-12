@@ -1,4 +1,5 @@
 import requests
+from langchain_core.tools import tool
 
 
 def web_search(query: str) -> str:
@@ -27,3 +28,9 @@ def web_search(query: str) -> str:
             return f"No direct answer found for: {query}. Try rephrasing."
     except Exception as e:
         return f"Search error: {e}"
+
+
+@tool
+def web_search_tool(query: str) -> str:
+    """Search the web for current information on a topic."""
+    return web_search(query)

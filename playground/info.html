@@ -1161,7 +1161,7 @@
                     <div class="tool-icon icon-purple">1</div>
                     <div class="tool-meta">
                         <div class="tool-name">single_tool_call</div>
-                        <div class="tool-file">playground/single_tool/single_tool_call.py</div>
+                        <div class="tool-file">playground/basic/single_tool/single_tool_call.py</div>
                     </div>
                     <div class="chevron">▼</div>
                 </div>
@@ -1204,7 +1204,7 @@
                     <div class="tool-icon icon-teal">3</div>
                     <div class="tool-meta">
                         <div class="tool-name">multi_tool_call</div>
-                        <div class="tool-file">playground/multi_tool/multi_tool_call.py</div>
+                        <div class="tool-file">playground/basic/multi_tool/multi_tool_call.py</div>
                     </div>
                     <div class="chevron">▼</div>
                 </div>
@@ -1250,7 +1250,7 @@
                     <div class="tool-icon icon-blue">∞</div>
                     <div class="tool-meta">
                         <div class="tool-name">agent_loop_cli</div>
-                        <div class="tool-file">playground/agnet_loop_cli/agent_loop_cli.py</div>
+                        <div class="tool-file">playground/basic/agnet_loop_cli/agent_loop_cli.py</div>
                     </div>
                     <div class="chevron">▼</div>
                 </div>
@@ -1286,6 +1286,21 @@
                                 class="st">"tool_use"</span>:<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;execute all tool blocks in response<br>
                             &nbsp;&nbsp;&nbsp;&nbsp;append all results → messages → loop
+                        </div>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">Dict-based Tool Router</div>
+                        <div class="code-block">
+                            <span class="kw">def</span> <span class="fn">execute_tool</span>(name: str, inputs: dict) -> str:<br>
+                            &nbsp;&nbsp;handlers = {<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">"web_search"</span>: websearch.<span class="fn">web_search</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">"calculator"</span>: calc.<span class="fn">calculator</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">"write_file"</span>: fileops.<span class="fn">write_file</span>,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="st">"get_weather"</span>: weather.<span class="fn">get_weather</span>,<br>
+                            &nbsp;&nbsp;}<br>
+                            &nbsp;&nbsp;handler = handlers.<span class="fn">get</span>(name)<br>
+                            &nbsp;&nbsp;<span class="kw">return</span> handler(**inputs) <span class="kw">if</span> handler <span class="kw">else</span> <span class="fn">f</span><span class="st">"Unknown tool: {name}"</span>
                         </div>
                     </div>
 
