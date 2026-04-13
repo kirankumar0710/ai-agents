@@ -16,6 +16,7 @@
     <script src="memory/in_context_memory_output.js"></script>
     <script src="memory/external_memory_with_db_output.js"></script>
     <script src="memory/external_memory_with_db_store.js"></script>
+    <script src="memory/langgraph_memory_store_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1529,6 +1530,71 @@
                 </div>
             </div>
 
+            <!-- ── langgraph_memory_store ── -->
+            <div class="pg-card" id="pg-lg-memory-store">
+                <div class="pg-header" onclick="togglePg('pg-lg-memory-store')">
+                    <div class="tool-icon icon-purple">M</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">langgraph_memory_store</div>
+                        <div class="tool-file">playground/memory/langgraph_memory_store.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        In-process conversation memory using LangGraph's <code>MemorySaver</code> checkpointer.
+                        The graph checkpoints full state after every node, keyed by <code>thread_id</code> — the same
+                        thread resumes where it left off, while a new <code>thread_id</code> starts a fresh session.
+                        Swap <code>MemorySaver</code> for <code>SqliteSaver</code> to persist across restarts.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">LangGraph</span>
+                        <span class="concept-tag">MemorySaver</span>
+                        <span class="concept-tag">checkpointing</span>
+                        <span class="concept-tag">thread_id</span>
+                        <span class="concept-tag">session isolation</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How it works</div>
+                        <div class="code-block">
+                            <span class="cm"># Same thread_id → state accumulates across calls</span><br>
+                            config = {<span class="st">"configurable"</span>: {<span class="st">"thread_id"</span>: <span class="st">"session_42"</span>}}<br>
+                            graph.<span class="fn">invoke</span>({<span class="st">"messages"</span>: [HumanMessage(...)]}, config)<br>
+                            <br>
+                            <span class="cm"># New thread_id → blank slate, no shared history</span><br>
+                            config = {<span class="st">"configurable"</span>: {<span class="st">"thread_id"</span>: <span class="st">"new_session"</span>}}<br>
+                            graph.<span class="fn">invoke</span>({<span class="st">"messages"</span>: [HumanMessage(...)]}, config)
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><code>MemorySaver</code> stores checkpoints in-memory — scoped to the current process</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><code>thread_id</code> is the session key — same ID resumes conversation, new ID starts fresh</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>State uses <code>Annotated[list, operator.add]</code> so messages accumulate automatically</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Swap <code>MemorySaver</code> → <code>SqliteSaver</code> for cross-restart persistence with zero graph changes</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-lg-memory-store"></pre>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -1735,6 +1801,7 @@
         document.getElementById('out-memory').textContent          = window.SAMPLES['in_context_memory']       || '';
         document.getElementById('out-ext-memory-db').textContent    = window.SAMPLES['external_memory_with_db']  || '';
         document.getElementById('out-ext-memory-db-json').textContent = window.SAMPLES['external_memory_with_db_json'] || '';
+        document.getElementById('out-lg-memory-store').textContent      = window.SAMPLES['langgraph_memory_store']         || '';
     </script>
 </body>
 
