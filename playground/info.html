@@ -13,6 +13,7 @@
     <script src="basic/agnet_loop_cli/weather_file_output.js"></script>
     <script src="langgraph/demo_langgraph_output.js"></script>
     <script src="langgraph/demo_langgraph_human_travel_planner_output.js"></script>
+    <script src="memory/in-context-memory.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1395,6 +1396,66 @@
                 </div>
             </div>
 
+            <!-- ── in_context_memory ── -->
+            <div class="pg-card" id="pg-memory">
+                <div class="pg-header" onclick="togglePg('pg-memory')">
+                    <div class="tool-icon icon-purple">M</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">in_context_memory</div>
+                        <div class="tool-file">playground/memory/in-context-memory.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Simplest possible memory implementation — the <code>messages</code> list itself is the memory.
+                        Every <code>chat()</code> call appends a user message and the assistant reply, then re-sends
+                        the full list to Claude. No external storage, no summarisation — just the growing conversation
+                        context window. Demonstrates that in-context memory comes for free once you maintain message history.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">in-context memory</span>
+                        <span class="concept-tag">messages list as state</span>
+                        <span class="concept-tag">stateful across turns</span>
+                        <span class="concept-tag">no external storage</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How it works</div>
+                        <div class="code-block">
+                            <span class="cm"># Every chat() call:</span><br>
+                            self.messages.<span class="fn">append</span>({<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: user_input})<br>
+                            response = client.messages.<span class="fn">create</span>(..., messages=self.messages)<br>
+                            self.messages.<span class="fn">append</span>({<span class="st">"role"</span>: <span class="st">"assistant"</span>, <span class="st">"content"</span>: reply})<br>
+                            <br>
+                            <span class="cm"># 3 chat() calls → 6 messages (1 user + 1 assistant each)</span><br>
+                            <span class="cm"># show_memory_size() prints len(messages) and total chars</span>
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Memory = the <code>messages</code> list — nothing more</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Cost and latency grow with every turn — full history re-sent each call</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Hits context limit eventually — use summarisation or windowing for long sessions</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-memory"></pre>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -1596,8 +1657,9 @@
         document.getElementById('out-multi-tool').textContent   = window.SAMPLES['multi_tool']   || '';
         document.getElementById('out-agent-loop').textContent   = window.SAMPLES['agent_loop']   || '';
         document.getElementById('out-weather-file').textContent = window.SAMPLES['weather_file'] || '';
-        document.getElementById('out-lg-basic').textContent     = window.SAMPLES['lg_basic']     || '';
-        document.getElementById('out-lg-trip').textContent      = window.SAMPLES['lg_trip']      || '';
+        document.getElementById('out-lg-basic').textContent     = window.SAMPLES['lg_basic']        || '';
+        document.getElementById('out-lg-trip').textContent      = window.SAMPLES['lg_trip']         || '';
+        document.getElementById('out-memory').textContent       = window.SAMPLES['in_context_memory'] || '';
     </script>
 </body>
 
