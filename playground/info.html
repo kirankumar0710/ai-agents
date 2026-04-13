@@ -9,11 +9,13 @@
     <!-- Sample outputs — loaded from co-located .js files, works with file:// (no server needed) -->
     <script src="basic/single_tool/sample_output.js"></script>
     <script src="basic/multi_tool/sample_output.js"></script>
-    <script src="basic/agnet_loop_cli/sample_output.js"></script>
-    <script src="basic/agnet_loop_cli/weather_file_output.js"></script>
+    <script src="basic/agent_loop_cli/sample_output.js"></script>
+    <script src="basic/agent_loop_cli/weather_file_output.js"></script>
     <script src="langgraph/demo_langgraph_output.js"></script>
     <script src="langgraph/demo_langgraph_human_travel_planner_output.js"></script>
-    <script src="memory/in-context-memory.js"></script>
+    <script src="memory/in_context_memory_output.js"></script>
+    <script src="memory/external_memory_with_db_output.js"></script>
+    <script src="memory/external_memory_with_db_store.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -492,7 +494,7 @@
 
         .output-block {
             background: var(--surface);
-            border: 1px dashed var(--border);
+            border: 2px dashed #9ca3af;
             border-radius: 6px;
             padding: 16px 20px;
             font-family: var(--mono);
@@ -1219,7 +1221,7 @@
                     <div class="tool-icon icon-blue">∞</div>
                     <div class="tool-meta">
                         <div class="tool-name">agent_loop_cli</div>
-                        <div class="tool-file">playground/basic/agnet_loop_cli/agent_loop_cli.py</div>
+                        <div class="tool-file">playground/basic/agent_loop_cli/agent_loop_cli.py</div>
                     </div>
                     <div class="chevron">▼</div>
                 </div>
@@ -1278,7 +1280,7 @@
                         <pre class="output-block" id="out-agent-loop"></pre>
                     </div>
 
-                    <!-- Generated file: agnet_loop_cli/weather_summary.txt — edit SAMPLES.weather_file above -->
+                    <!-- Generated file: agent_loop_cli/weather_summary.txt — edit SAMPLES.weather_file above -->
                     <div class="output-wrap" style="margin-top:16px">
                         <div class="output-label">Generated File &nbsp;<span
                                 style="color:var(--accent3);font-size:9px;opacity:0.7">← weather_summary.txt</span>
@@ -1452,6 +1454,77 @@
                     <div class="output-wrap">
                         <div class="output-label">Sample Output</div>
                         <pre class="output-block" id="out-memory"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── external_memory_with_db ── -->
+            <div class="pg-card" id="pg-ext-memory-db">
+                <div class="pg-header" onclick="togglePg('pg-ext-memory-db')">
+                    <div class="tool-icon icon-purple">M</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">external_memory_with_db</div>
+                        <div class="tool-file">playground/memory/external_memory_with_db.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Persistent memory across sessions using a JSON file as an external store (simulating a DB).
+                        Each <code>chat()</code> call saves messages with timestamps to a per-user JSON store, then
+                        reloads the last <code>N</code> messages as history before calling Claude. A new agent instance
+                        picks up where the previous session left off — memory survives process restarts.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">external memory</span>
+                        <span class="concept-tag">JSON file store</span>
+                        <span class="concept-tag">per-user history</span>
+                        <span class="concept-tag">cross-session persistence</span>
+                        <span class="concept-tag">sliding window</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How it works</div>
+                        <div class="code-block">
+                            <span class="cm"># On every chat() call:</span><br>
+                            self.<span class="fn">_save_message</span>(<span class="st">"user"</span>, user_input)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># persist to JSON</span><br>
+                            history = self.<span class="fn">_load_history</span>(limit=<span class="kw">20</span>)&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># last 20 msgs</span><br>
+                            response = client.messages.<span class="fn">create</span>(..., messages=history)<br>
+                            self.<span class="fn">_save_message</span>(<span class="st">"assistant"</span>, reply)&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm"># persist reply</span><br>
+                            <br>
+                            <span class="cm"># New agent2 = PersistentMemoryAgent(user_id="kiran")</span><br>
+                            <span class="cm"># agent2.chat("What do you know?") → recalls previous session</span>
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Memory persists across process restarts — stored in <code>agent_memory.json</code></div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Sliding window of last 20 messages keeps context bounded</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Per-user namespacing via <code>user_id</code> key in the JSON store</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Drop-in swap: replace JSON file with SQLite or any DB by changing <code>_load_store</code> / <code>_save_store</code></div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-ext-memory-db"></pre>
+                    </div>
+
+                    <div class="output-wrap" style="margin-top:16px">
+                        <div class="output-label">Storage File (agent_memory.json)</div>
+                        <pre class="output-block" id="out-ext-memory-db-json"></pre>
                     </div>
                 </div>
             </div>
@@ -1659,7 +1732,9 @@
         document.getElementById('out-weather-file').textContent = window.SAMPLES['weather_file'] || '';
         document.getElementById('out-lg-basic').textContent     = window.SAMPLES['lg_basic']        || '';
         document.getElementById('out-lg-trip').textContent      = window.SAMPLES['lg_trip']         || '';
-        document.getElementById('out-memory').textContent       = window.SAMPLES['in_context_memory'] || '';
+        document.getElementById('out-memory').textContent          = window.SAMPLES['in_context_memory']       || '';
+        document.getElementById('out-ext-memory-db').textContent    = window.SAMPLES['external_memory_with_db']  || '';
+        document.getElementById('out-ext-memory-db-json').textContent = window.SAMPLES['external_memory_with_db_json'] || '';
     </script>
 </body>
 
