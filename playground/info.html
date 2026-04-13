@@ -17,6 +17,7 @@
     <script src="memory/external_memory_with_db_output.js"></script>
     <script src="memory/external_memory_with_db_store.js"></script>
     <script src="memory/langgraph_memory_store_output.js"></script>
+    <script src="memory/langgraph_multiagent_supervisor_subagent_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1595,6 +1596,75 @@
                 </div>
             </div>
 
+            <!-- ── langgraph_multiagent_supervisor_subagent ── -->
+            <div class="pg-card" id="pg-lg-multiagent">
+                <div class="pg-header" onclick="togglePg('pg-lg-multiagent')">
+                    <div class="tool-icon icon-purple">M</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">langgraph_multiagent_supervisor_subagent</div>
+                        <div class="tool-file">playground/memory/langgraph_multiagent_supervisor_subagent.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Multi-agent orchestration with a <strong>supervisor</strong> that dynamically routes between
+                        specialized sub-agents. The supervisor calls Claude to decide at each step whether to dispatch
+                        a <em>researcher</em> (fact-gathering) or a <em>writer</em> (content drafting), cycling back
+                        until the task is done. An iteration guard prevents infinite loops.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">multi-agent</span>
+                        <span class="concept-tag">supervisor pattern</span>
+                        <span class="concept-tag">conditional routing</span>
+                        <span class="concept-tag">LangGraph</span>
+                        <span class="concept-tag">sub-agents</span>
+                        <span class="concept-tag">iteration guard</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How it works</div>
+                        <div class="code-block">
+                            <span class="cm"># Supervisor asks Claude: who acts next?</span><br>
+                            decision = <span class="fn">json.loads</span>(claude_response)&nbsp;&nbsp;<span class="cm"># {"next": "researcher"|"writer"|"finish"}</span><br>
+                            <br>
+                            <span class="cm"># Conditional edge routes the graph</span><br>
+                            builder.<span class="fn">add_conditional_edges</span>(<span class="st">"supervisor"</span>, route_supervisor,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;{<span class="st">"researcher"</span>: <span class="st">"researcher"</span>, <span class="st">"writer"</span>: <span class="st">"writer"</span>, <span class="st">"finish"</span>: END})<br>
+                            <br>
+                            <span class="cm"># Sub-agents always return to supervisor</span><br>
+                            builder.<span class="fn">add_edge</span>(<span class="st">"researcher"</span>, <span class="st">"supervisor"</span>)<br>
+                            builder.<span class="fn">add_edge</span>(<span class="st">"writer"</span>, <span class="st">"supervisor"</span>)
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Supervisor emits structured JSON to drive routing — falls back to keyword parsing on decode failure</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Sub-agents are stateless nodes; all shared context lives in <code>MultiAgentState</code></div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Iteration counter (<code>iteration >= 6</code>) breaks cycles if the supervisor loops indefinitely</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Mix of Anthropic SDK (supervisor) and LangChain ChatAnthropic (sub-agents) in the same graph</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-lg-multiagent"></pre>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
 
@@ -1802,6 +1872,7 @@
         document.getElementById('out-ext-memory-db').textContent    = window.SAMPLES['external_memory_with_db']  || '';
         document.getElementById('out-ext-memory-db-json').textContent = window.SAMPLES['external_memory_with_db_json'] || '';
         document.getElementById('out-lg-memory-store').textContent      = window.SAMPLES['langgraph_memory_store']         || '';
+        document.getElementById('out-lg-multiagent').textContent         = window.SAMPLES['langgraph_multiagent_supervisor_subagent'] || '';
     </script>
 </body>
 
