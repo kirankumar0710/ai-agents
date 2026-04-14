@@ -1,0 +1,9 @@
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['langgraph_multiagent_parallel'] = `(venv) kirankumar@192 multiagent % python3 ./langgraph_multiagent_parallel.py
+⚙️  Tech researcher running...
+💼  Business researcher running...
+⚠️  Risk researcher running...
+🔗  Synthesizer — received 3 research outputs
+=== SYNTHESIS ===
+ Result Len: 10199 chars
+ Synthesis output file: synthesis_output.md`;
