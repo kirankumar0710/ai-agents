@@ -20,6 +20,8 @@
     <script src="multiagent/langgraph_multiagent_supervisor_subagent_output.js"></script>
     <script src="multiagent/langgraph_multiagent_parallel_output.js"></script>
     <script src="multiagent/langraph_multiagent_parallel_output_file.js"></script>
+    <script src="mcp/mcp_server_command_line_output.js"></script>
+    <script src="mcp/mcp_server_using_inspector_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1633,9 +1635,9 @@
 
             </div> <!-- /group-memory -->
 
-            <!-- ══ 4. Multiagent ══ -->
+            <!-- ══ 4. Multi-Agent ══ -->
             <div class="pg-group" id="group-multiagent">
-                <div class="pg-group-label">4 — Multiagent</div>
+                <div class="pg-group-label">4 — Multi-Agent</div>
 
             <!-- ── langgraph_multiagent_supervisor_subagent ── -->
             <div class="pg-card" id="pg-lg-multiagent">
@@ -1766,7 +1768,7 @@
                         </div>
                         <div class="key-point">
                             <div class="key-dot"></div>
-                            <div>Synthesizer token budget is <code>RESEARCHER_MAX_TOKENS × 3</code> — it ingests all three outputs combined</div>
+                            <div>Synthesizer token budget is <code>RESEARCHER_MAX_TOKENS * NUMBER_OF_RESEARCHER</code> — it ingests all three outputs combined</div>
                         </div>
                     </div>
 
@@ -1783,6 +1785,97 @@
             </div>
 
             </div> <!-- /group-multiagent -->
+
+            <!-- ── group: MCP ── -->
+            <div class="pg-group" id="group-mcp">
+                <div class="pg-group-label">5 — MCP</div>
+
+            <!-- ── mcp_server ── -->
+            <div class="pg-card" id="pg-mcp-server">
+                <div class="pg-header" onclick="togglePg('pg-mcp-server')">
+                    <div class="tool-icon icon-teal">⚡</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">mcp_server</div>
+                        <div class="tool-file">playground/mcp/mcp_server.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        A custom <strong>MCP (Model Context Protocol)</strong> server exposing
+                        <em>web_search</em>, <em>calculate</em>, and <em>get_weather</em> as tools over
+                        stdio. Any MCP-compatible client communicates with it via JSON-RPC 2.0 — no HTTP
+                        server needed. Test interactively from the command line or via the MCP Inspector UI.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">MCP</span>
+                        <span class="concept-tag">JSON-RPC 2.0</span>
+                        <span class="concept-tag">stdio transport</span>
+                        <span class="concept-tag">tool server</span>
+                        <span class="concept-tag">MCP Inspector</span>
+                        <span class="concept-tag">asyncio</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How to run — 1. Command Line</div>
+                        <div class="code-block">
+                            <span class="cm"># a) Start the server</span><br>
+                            python3 mcp_server.py<br>
+                            <br>
+                            <span class="cm"># b) Initialize — paste this JSON and press Enter</span><br>
+                            <span class="st">{"jsonrpc": "2.0", "method": "initialize", "id": 1, "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "test", "version": "1.0"}}}</span><br>
+                            <br>
+                            <span class="cm"># c) List tools</span><br>
+                            <span class="st">{"jsonrpc": "2.0", "method": "tools/list", "id": 3}</span><br>
+                            <br>
+                            <span class="cm"># d) Call the calculator tool</span><br>
+                            <span class="st">{"jsonrpc": "2.0", "method": "tools/call", "id": 3, "params": {"name": "calculate", "arguments": {"expression": "5 + 7"}}}</span>
+                        </div>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How to run — 2. MCP Inspector</div>
+                        <div class="code-block">
+                            <span class="cm"># Install Node.js once if needed: brew install node</span><br>
+                            npx @modelcontextprotocol/inspector python3 mcp_server.py<br>
+                            <br>
+                            <span class="cm"># Opens browser UI at http://localhost:6274 — same as Postman for REST APIs</span>
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Server communicates over <strong>stdin/stdout</strong> — each JSON-RPC message is a single line; the client writes a line, the server responds with a line</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><code>@app.list_tools()</code> advertises tool schemas; <code>@app.call_tool()</code> dispatches execution — decoupled from the transport layer</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>MCP Inspector is a dev-only test UI (Node.js) — same idea as Postman for REST; not part of the production stack</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Any MCP-compatible client (Claude Desktop, Claude Code, custom agent) can connect without changing a line of server code</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output — Command Line</div>
+                        <pre class="output-block" id="out-mcp-server"></pre>
+                    </div>
+
+                    <div class="output-wrap" style="margin-top:16px">
+                        <div class="output-label">Sample Output — MCP Inspector</div>
+                        <pre class="output-block" id="out-mcp-inspector"></pre>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- /group-mcp -->
 
         </div>
 
@@ -1994,6 +2087,8 @@
         document.getElementById('out-lg-multiagent').textContent                     = window.SAMPLES['langgraph_multiagent_supervisor_subagent'] || '';
         document.getElementById('out-lg-multiagent-parallel').textContent            = window.SAMPLES['langgraph_multiagent_parallel']              || '';
         document.getElementById('out-lg-multiagent-parallel-synthesis').textContent  = window.SAMPLES['synthesis_output']                           || '';
+        document.getElementById('out-mcp-server').textContent                        = window.SAMPLES['mcp_server']                                 || '';
+        document.getElementById('out-mcp-inspector').textContent                     = window.SAMPLES['mcp_inspector']                              || '';
     </script>
 </body>
 

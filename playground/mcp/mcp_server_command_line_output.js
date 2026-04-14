@@ -1,0 +1,8 @@
+window.SAMPLES = window.SAMPLES || {};
+window.SAMPLES['mcp_server'] = `(venv) kirankumar@192 mcp % python3 mcp_server.py
+{"jsonrpc": "2.0", "method": "initialize", "id": 1, "params": {"protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": {"name": "test", "version": "1.0"}}}
+{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"2024-11-05","capabilities":{"experimental":{},"tools":{"listChanged":false}},"serverInfo":{"name":"my-custom-agent-tools","version":"1.27.0"}}}
+{"jsonrpc": "2.0", "method": "tools/list", "id": 3}
+{"jsonrpc":"2.0","id":3,"result":{"tools":[{"name":"web_search","description":"Search the web for current information","inputSchema":{"type":"object","properties":{"query":{"type":"string","description":"Search query"},"max_results":{"type":"integer","description":"Max results to return","default":5}},"required":["query"]}},{"name":"calculate","description":"Perform mathematical calculations","inputSchema":{"type":"object","properties":{"expression":{"type":"string","description":"Math expression to evaluate, e.g. '2 + 2 * 10'"}},"required":["expression"]}},{"name":"get_weather","description":"Get current weather for a city","inputSchema":{"type":"object","properties":{"city":{"type":"string","description":"City name"}},"required":["city"]}}]}}
+{"jsonrpc": "2.0", "method": "tools/call", "id": 3, "params": {"name": "calculate", "arguments": {"expression": "5 + 7"}}}
+{"jsonrpc":"2.0","id":3,"result":{"content":[{"type":"text","text":"5 + 7 = 12"}],"isError":false}}`;
