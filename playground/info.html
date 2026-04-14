@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Playground — Tool Reference</title>
+    <title>Agent Patterns</title>
 
     <!-- Sample outputs — loaded from co-located .js files, works with file:// (no server needed) -->
     <script src="basic/single_tool/sample_output.js"></script>
@@ -17,7 +17,7 @@
     <script src="memory/external_memory_with_db_output.js"></script>
     <script src="memory/external_memory_with_db_store.js"></script>
     <script src="memory/langgraph_memory_store_output.js"></script>
-    <script src="memory/langgraph_multiagent_supervisor_subagent_output.js"></script>
+    <script src="multiagent/langgraph_multiagent_supervisor_subagent_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -91,7 +91,7 @@
         h1 {
             font-size: clamp(32px, 5vw, 52px);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.3;
             letter-spacing: -0.02em;
             margin-bottom: 16px;
         }
@@ -119,7 +119,8 @@
 
         .tab {
             font-family: var(--mono);
-            font-size: 12px;
+            font-size: 15px;
+            font-weight: 700;
             letter-spacing: 0.05em;
             padding: 10px 20px;
             border: none;
@@ -568,16 +569,38 @@
             color: var(--muted);
         }
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
+        /* ── playground category group ── */
+        .pg-group {
+            margin-bottom: 40px;
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .pg-group-label {
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 6px 0 12px;
+            border-bottom: 2px solid #5b47e0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pg-group-label::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
 
         @media (max-width: 600px) {
@@ -600,13 +623,7 @@
     <div class="wrap">
 
         <header>
-            <div class="badge">ai-agents / playground</div>
-            <h1>Tool <span>Reference</span></h1>
-            <p class="subtitle">
-                tools/calculator.py &nbsp;·&nbsp; tools/weather.py &nbsp;·&nbsp;
-                tools/fileops.py &nbsp;·&nbsp; tools/websearch.py &nbsp;·&nbsp;
-                tools/flight.py &nbsp;·&nbsp; tools/hotel.py
-            </p>
+            <h1>Agent <span>Patterns</span></h1>
         </header>
 
         <div class="tabs">
@@ -1128,6 +1145,10 @@
              ═══════════════════════════════════════════════════════════ -->
         <div class="panel" id="panel-playgrounds">
 
+            <!-- ══ 1. Basic ══ -->
+            <div class="pg-group" id="group-basic">
+                <div class="pg-group-label">1 — Basic</div>
+
             <!-- ── single_tool ── -->
             <div class="pg-card" id="pg-single">
                 <div class="pg-header" onclick="togglePg('pg-single')">
@@ -1292,6 +1313,12 @@
                 </div>
             </div>
 
+            </div> <!-- /group-basic -->
+
+            <!-- ══ 2. LangGraph ══ -->
+            <div class="pg-group" id="group-langgraph">
+                <div class="pg-group-label">2 — LangGraph</div>
+
             <!-- ── langgraph_basic ── -->
             <div class="pg-card" id="pg-lg-basic">
                 <div class="pg-header" onclick="togglePg('pg-lg-basic')">
@@ -1399,6 +1426,12 @@
                     </div>
                 </div>
             </div>
+
+            </div> <!-- /group-langgraph -->
+
+            <!-- ══ 3. Memory ══ -->
+            <div class="pg-group" id="group-memory">
+                <div class="pg-group-label">3 — Memory</div>
 
             <!-- ── in_context_memory ── -->
             <div class="pg-card" id="pg-memory">
@@ -1596,13 +1629,19 @@
                 </div>
             </div>
 
+            </div> <!-- /group-memory -->
+
+            <!-- ══ 4. Multiagent ══ -->
+            <div class="pg-group" id="group-multiagent">
+                <div class="pg-group-label">4 — Multiagent</div>
+
             <!-- ── langgraph_multiagent_supervisor_subagent ── -->
             <div class="pg-card" id="pg-lg-multiagent">
                 <div class="pg-header" onclick="togglePg('pg-lg-multiagent')">
                     <div class="tool-icon icon-purple">M</div>
                     <div class="tool-meta">
                         <div class="tool-name">langgraph_multiagent_supervisor_subagent</div>
-                        <div class="tool-file">playground/memory/langgraph_multiagent_supervisor_subagent.py</div>
+                        <div class="tool-file">playground/multiagent/langgraph_multiagent_supervisor_subagent.py</div>
                     </div>
                     <div class="chevron">▼</div>
                 </div>
@@ -1664,6 +1703,8 @@
                     </div>
                 </div>
             </div>
+
+            </div> <!-- /group-multiagent -->
 
         </div>
 
