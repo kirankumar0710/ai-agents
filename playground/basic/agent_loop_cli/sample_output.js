@@ -1,109 +1,107 @@
 window.SAMPLES = window.SAMPLES || {};
-window.SAMPLES['agent_loop'] = [
-    "🚀 CLI Agent — Claude + Tool Use",
-    "Type 'quit' to exit",
-    "",
-    "You: How many seconds are in 2 week, 4 days, 8 hours, 16 min ",
-    "",
-    "🤖 Agent starting...",
-    "  🔧 calculator((2 * 7 * 24 * 60 * 60) + (4 * 24 * 60 * 60) + (8 *...)",
-    "  ✓  1584960...",
-    "",
-    "Agent: **2 weeks, 4 days, 8 hours, and 16 minutes = 1,584,960 seconds**",
-    "",
-    "Here's the breakdown:",
-    "| Unit | Calculation | Seconds |",
-    "|------|-------------|---------|",
-    "| 2 weeks | 2 × 7 × 24 × 60 × 60 | 1,209,600 |",
-    "| 4 days | 4 × 24 × 60 × 60 | 345,600 |",
-    "| 8 hours | 8 × 60 × 60 | 28,800 |",
-    "| 16 minutes | 16 × 60 | 960 |",
-    "| **Total** | | **1,584,960** |",
-    "",
-    "",
-    "================================================================================",
-    "You: what is temprature in bengaluru and tokyo , compare and summarize and write to weather_summarize.txt",
-    "",
-    "🤖 Agent starting...",
-    "  🔧 get_weather(Bengaluru...)",
-    "  ✓  Location: Bengaluru, Temperature: 29.9°C, Wind Speed: 7.3 km/h, Time: 2026-04-10...",
-    "  🔧 get_weather(Tokyo...)",
-    "  ✓  Location: Tokyo, Temperature: 18.8°C, Wind Speed: 6.4 km/h, Time: 2026-04-10T13:...",
-    "  🔧 calculator(29.9 - 18.8...)",
-    "  ✓  11.099999999999998...",
-    "  🔧 write_file(weather_summarize.txt...)",
-    "  ✓  Successfully wrote 913 characters to weather_summarize.txt...",
-    "",
-    "Agent: Done! Here's the summary:",
-    "",
-    "## Weather Comparison: Bengaluru vs Tokyo",
-    "",
-    "| City | Temperature | Wind Speed |",
-    "|------|-------------|------------|",
-    "| **Bengaluru** | 29.9°C | 7.3 km/h |",
-    "| **Tokyo** | 18.8°C | 6.4 km/h |",
-    "",
-    "### Key Findings:",
-    "- **Bengaluru is warmer** than Tokyo by **11.1°C**",
-    "- Bengaluru is experiencing warm/hot weather (~30°C), typical of its tropical climate",
-    "- Tokyo has mild spring weather (~19°C)",
-    "- Both cities have similar light wind conditions",
-    "",
-    "The complete comparison has been saved to **weather_summarize.txt** 📄",
-    "",
-    "",
-    "================================================================================",
-    "You: how stock market are getting impacted due  iran war",
-    "",
-    "🤖 Agent starting...",
-    "  🔧 web_search(Iran war impact on stock market 2024...)",
-    "  ✓  No direct answer found for: Iran war impact on stock market 2024. Try rephrasing...",
-    "  🔧 web_search(Iran Israel conflict stock market reaction today...)",
-    "  ✓  No direct answer found for: Iran Israel conflict stock market reaction today. Tr...",
-    "  🔧 web_search(Middle East tensions Iran stock market impact 2024...)",
-    "  ✓  No direct answer found for: Middle East tensions Iran stock market impact 2024. ...",
-    "  🔧 web_search(oil prices Iran conflict global markets...)",
-    "  ✓  No direct answer found for: oil prices Iran conflict global markets. Try rephras...",
-    "  🔧 web_search(Iran geopolitical risk stock markets effect...)",
-    "  ✓  No direct answer found for: Iran geopolitical risk stock markets effect. Try rep...",
-    "  🔧 web_search(S&P 500 Dow Jones Middle East war news...)",
-    "  ✓  No direct answer found for: S&P 500 Dow Jones Middle East war news. Try rephrasi...",
-    "",
-    "Agent: I apologize that the search tool isn't returning specific current results. However, based on general financial knowledge, I can explain how conflicts involving Iran typically impact stock markets:",
-    "",
-    "## How Iran-Related Conflicts Impact Stock Markets",
-    "",
-    "### 1. **Oil Prices Surge**",
-    "- Iran is a major oil producer (OPEC member)",
-    "- Any conflict raises fears of supply disruptions in the Persian Gulf (through which ~20% of global oil passes via the Strait of Hormuz)",
-    "- Higher oil prices increase costs for businesses, potentially hurting corporate earnings",
-    "",
-    "### 2. **Sector-Specific Impacts**",
-    "| Sector | Typical Impact |",
-    "|--------|----------------|",
-    "| **Energy/Oil stocks** | 📈 Often rise (higher oil prices) |",
-    "| **Defense contractors** | 📈 Often rise (increased military spending) |",
-    "| **Airlines/Transport** | 📉 Often fall (higher fuel costs) |",
-    "| **Consumer discretionary** | 📉 Often fall (inflation concerns) |",
-    "| **Gold/Safe havens** | 📈 Often rise (flight to safety) |",
-    "",
-    "### 3. **Market Volatility**",
-    "- VIX (fear index) typically spikes during geopolitical tensions",
-    "- Investors often move to \"safe haven\" assets like gold, US Treasury bonds, and Swiss franc",
-    "",
-    "### 4. **Regional Markets**",
-    "- Middle Eastern stock markets often experience sharper declines",
-    "- Emerging markets may see capital outflows",
-    "",
-    "### 5. **Historical Pattern**",
-    "- Markets often initially sell off on war news but tend to recover once uncertainty decreases",
-    "- The saying goes: \"Buy the rumor, sell the news\" (or sometimes the reverse in war situations)",
-    "",
-    "---",
-    "",
-    "**Would you like me to search for more specific current news about ongoing Iran-related tensions and their market impact?**",
-    "",
-    "",
-    "================================================================================",
-    "You: quit",
-].join("\n");
+window.SAMPLES['agent_loop'] = `🚀 CLI Agent — Claude + Tool Use
+Type 'quit' to exit
+
+You: How many seconds are in 2 week, 4 days, 8 hours, 16 min
+
+🤖 Agent starting...
+  🔧 calculator((2 * 7 * 24 * 60 * 60) + (4 * 24 * 60 * 60) + (8 *...)
+  ✓  1584960...
+
+Agent: **2 weeks, 4 days, 8 hours, and 16 minutes = 1,584,960 seconds**
+
+Here's the breakdown:
+| Unit | Calculation | Seconds |
+|------|-------------|---------|
+| 2 weeks | 2 × 7 × 24 × 60 × 60 | 1,209,600 |
+| 4 days | 4 × 24 × 60 × 60 | 345,600 |
+| 8 hours | 8 × 60 × 60 | 28,800 |
+| 16 minutes | 16 × 60 | 960 |
+| **Total** | | **1,584,960** |
+
+
+================================================================================
+You: what is temprature in bengaluru and tokyo , compare and summarize and write to weather_summarize.txt
+
+🤖 Agent starting...
+  🔧 get_weather(Bengaluru...)
+  ✓  Location: Bengaluru, Temperature: 29.9°C, Wind Speed: 7.3 km/h, Time: 2026-04-10...
+  🔧 get_weather(Tokyo...)
+  ✓  Location: Tokyo, Temperature: 18.8°C, Wind Speed: 6.4 km/h, Time: 2026-04-10T13:...
+  🔧 calculator(29.9 - 18.8...)
+  ✓  11.099999999999998...
+  🔧 write_file(weather_summarize.txt...)
+  ✓  Successfully wrote 913 characters to weather_summarize.txt...
+
+Agent: Done! Here's the summary:
+
+## Weather Comparison: Bengaluru vs Tokyo
+
+| City | Temperature | Wind Speed |
+|------|-------------|------------|
+| **Bengaluru** | 29.9°C | 7.3 km/h |
+| **Tokyo** | 18.8°C | 6.4 km/h |
+
+### Key Findings:
+- **Bengaluru is warmer** than Tokyo by **11.1°C**
+- Bengaluru is experiencing warm/hot weather (~30°C), typical of its tropical climate
+- Tokyo has mild spring weather (~19°C)
+- Both cities have similar light wind conditions
+
+The complete comparison has been saved to **weather_summarize.txt** 📄
+
+
+================================================================================
+You: how stock market are getting impacted due  iran war
+
+🤖 Agent starting...
+  🔧 web_search(Iran war impact on stock market 2024...)
+  ✓  No direct answer found for: Iran war impact on stock market 2024. Try rephrasing...
+  🔧 web_search(Iran Israel conflict stock market reaction today...)
+  ✓  No direct answer found for: Iran Israel conflict stock market reaction today. Tr...
+  🔧 web_search(Middle East tensions Iran stock market impact 2024...)
+  ✓  No direct answer found for: Middle East tensions Iran stock market impact 2024. ...
+  🔧 web_search(oil prices Iran conflict global markets...)
+  ✓  No direct answer found for: oil prices Iran conflict global markets. Try rephras...
+  🔧 web_search(Iran geopolitical risk stock markets effect...)
+  ✓  No direct answer found for: Iran geopolitical risk stock markets effect. Try rep...
+  🔧 web_search(S&P 500 Dow Jones Middle East war news...)
+  ✓  No direct answer found for: S&P 500 Dow Jones Middle East war news. Try rephrasi...
+
+Agent: I apologize that the search tool isn't returning specific current results. However, based on general financial knowledge, I can explain how conflicts involving Iran typically impact stock markets:
+
+## How Iran-Related Conflicts Impact Stock Markets
+
+### 1. **Oil Prices Surge**
+- Iran is a major oil producer (OPEC member)
+- Any conflict raises fears of supply disruptions in the Persian Gulf (through which ~20% of global oil passes via the Strait of Hormuz)
+- Higher oil prices increase costs for businesses, potentially hurting corporate earnings
+
+### 2. **Sector-Specific Impacts**
+| Sector | Typical Impact |
+|--------|----------------|
+| **Energy/Oil stocks** | 📈 Often rise (higher oil prices) |
+| **Defense contractors** | 📈 Often rise (increased military spending) |
+| **Airlines/Transport** | 📉 Often fall (higher fuel costs) |
+| **Consumer discretionary** | 📉 Often fall (inflation concerns) |
+| **Gold/Safe havens** | 📈 Often rise (flight to safety) |
+
+### 3. **Market Volatility**
+- VIX (fear index) typically spikes during geopolitical tensions
+- Investors often move to "safe haven" assets like gold, US Treasury bonds, and Swiss franc
+
+### 4. **Regional Markets**
+- Middle Eastern stock markets often experience sharper declines
+- Emerging markets may see capital outflows
+
+### 5. **Historical Pattern**
+- Markets often initially sell off on war news but tend to recover once uncertainty decreases
+- The saying goes: "Buy the rumor, sell the news" (or sometimes the reverse in war situation)
+
+---
+
+**Would you like me to search for more specific current news about ongoing Iran-related tensions and their market impact?**
+
+
+================================================================================
+You: quit`;

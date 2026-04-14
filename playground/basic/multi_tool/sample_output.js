@@ -1,37 +1,35 @@
 window.SAMPLES = window.SAMPLES || {};
-window.SAMPLES['multi_tool'] = [
-    "Claude wants to call: calculator",
-    "With input: {'expression': '347 * 28 + 4521'}",
-    "",
-    "Final answer: The total number of items is **14,237**.",
-    "",
-    "Here's the breakdown:",
-    "- Items in boxes: 347 × 28 = 9,716",
-    "- Loose items: 4,521",
-    "- **Total: 14,237 items**",
-    "",
-    "================================================================================",
-    "",
-    "Claude wants to call: get_weather",
-    "With input: {'city': 'Bengaluru'}",
-    "",
-    "Final answer: # Weather in Bengaluru 🌤️",
-    "",
-    "| | |",
-    "|---|---|",
-    "| 📍 **Location** | Bengaluru |",
-    "| 🌡️ **Temperature** | 30.1°C |",
-    "| 💨 **Wind Speed** | 9.6 km/h |",
-    "| 🕐 **Local Time** | 1:15 PM |",
-    "",
-    "It's a warm afternoon in Bengaluru! ☀️ The temperature is quite pleasant at around 30°C with light winds. Perfect weather to stay hydrated! 💧",
-    "",
-    "================================================================================",
-    "",
-    "Claude wants to call: write_file",
-    "With input: {'filename': 'output.txt', 'content': 'Hello from Claude!'}",
-    "",
-    "Final answer: Done! I've written \"Hello from Claude!\" to the file `output.txt`. The file now contains your message.",
-    "",
-    "================================================================================",
-].join("\n");
+window.SAMPLES['multi_tool'] = `Claude wants to call: calculator
+With input: {'expression': '347 * 28 + 4521'}
+
+Final answer: The total number of items is **14,237**.
+
+Here's the breakdown:
+- Items in boxes: 347 × 28 = 9,716
+- Loose items: 4,521
+- **Total: 14,237 items**
+
+================================================================================
+
+Claude wants to call: get_weather
+With input: {'city': 'Bengaluru'}
+
+Final answer: # Weather in Bengaluru 🌤️
+
+| | |
+|---|---|
+| 📍 **Location** | Bengaluru |
+| 🌡️ **Temperature** | 30.1°C |
+| 💨 **Wind Speed** | 9.6 km/h |
+| 🕐 **Local Time** | 1:15 PM |
+
+It's a warm afternoon in Bengaluru! ☀️ The temperature is quite pleasant at around 30°C with light winds. Perfect weather to stay hydrated! 💧
+
+================================================================================
+
+Claude wants to call: write_file
+With input: {'filename': 'output.txt', 'content': 'Hello from Claude!'}
+
+Final answer: Done! I've written "Hello from Claude!" to the file \`output.txt\`. The file now contains your message.
+
+================================================================================`;

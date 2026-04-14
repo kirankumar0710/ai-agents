@@ -18,6 +18,8 @@
     <script src="memory/external_memory_with_db_store.js"></script>
     <script src="memory/langgraph_memory_store_output.js"></script>
     <script src="multiagent/langgraph_multiagent_supervisor_subagent_output.js"></script>
+    <script src="multiagent/langgraph_multiagent_parallel_output.js"></script>
+    <script src="multiagent/langraph_multiagent_parallel_output_file.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1704,6 +1706,82 @@
                 </div>
             </div>
 
+
+            <!-- ── langgraph_multiagent_parallel ── -->
+            <div class="pg-card" id="pg-lg-multiagent-parallel">
+                <div class="pg-header" onclick="togglePg('pg-lg-multiagent-parallel')">
+                    <div class="tool-icon icon-purple">M</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">langgraph_multiagent_parallel</div>
+                        <div class="tool-file">playground/multiagent/langgraph_multiagent_parallel.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Parallel multi-agent research using a <strong>fan-out / fan-in</strong> pattern. Three
+                        specialized researchers — tech, business, and risk — run concurrently as independent
+                        LangGraph branches. Their outputs are merged by a reducer and fed to a synthesizer that
+                        produces one coherent report.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">multi-agent</span>
+                        <span class="concept-tag">parallel fan-out</span>
+                        <span class="concept-tag">Send()</span>
+                        <span class="concept-tag">reducer</span>
+                        <span class="concept-tag">LangGraph</span>
+                        <span class="concept-tag">fan-in synthesis</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How it works</div>
+                        <div class="code-block">
+                            <span class="cm"># fan_out returns Send() objects — LangGraph runs them concurrently</span><br>
+                            <span class="kw">def</span> <span class="fn">fan_out</span>(state) -> list[Send]:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span> [Send(<span class="st">"tech_researcher"</span>, …), Send(<span class="st">"business_researcher"</span>, …), Send(<span class="st">"risk_researcher"</span>, …)]<br>
+                            <br>
+                            <span class="cm"># Annotated reducer APPENDS each branch's output — no overwrite</span><br>
+                            research_outputs: Annotated[list[str], operator.add]<br>
+                            <br>
+                            <span class="cm"># All branches converge — synthesizer waits for all three</span><br>
+                            builder.<span class="fn">add_edge</span>(<span class="st">"tech_researcher"</span>, <span class="st">"synthesizer"</span>)<br>
+                            builder.<span class="fn">add_edge</span>(<span class="st">"business_researcher"</span>, <span class="st">"synthesizer"</span>)<br>
+                            builder.<span class="fn">add_edge</span>(<span class="st">"risk_researcher"</span>, <span class="st">"synthesizer"</span>)
+                        </div>
+                    </div>
+
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><code>Send()</code> is the fan-out mechanism — each call spawns an independent concurrent branch with its own state slice</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><code>Annotated[list, operator.add]</code> is the reducer — parallel writes append safely instead of overwriting each other</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Parallel nodes must return <code>dict</code>, not the full state type — returning full state causes a race condition where the last writer wins</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div>Synthesizer token budget is <code>RESEARCHER_MAX_TOKENS × 3</code> — it ingests all three outputs combined</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-lg-multiagent-parallel"></pre>
+                    </div>
+
+                    <div class="output-wrap" style="margin-top:16px">
+                        <div class="output-label">Synthesis Report</div>
+                        <pre class="output-block" id="out-lg-multiagent-parallel-synthesis"></pre>
+                    </div>
+                </div>
+            </div>
+
             </div> <!-- /group-multiagent -->
 
         </div>
@@ -1913,7 +1991,9 @@
         document.getElementById('out-ext-memory-db').textContent    = window.SAMPLES['external_memory_with_db']  || '';
         document.getElementById('out-ext-memory-db-json').textContent = window.SAMPLES['external_memory_with_db_json'] || '';
         document.getElementById('out-lg-memory-store').textContent      = window.SAMPLES['langgraph_memory_store']         || '';
-        document.getElementById('out-lg-multiagent').textContent         = window.SAMPLES['langgraph_multiagent_supervisor_subagent'] || '';
+        document.getElementById('out-lg-multiagent').textContent                     = window.SAMPLES['langgraph_multiagent_supervisor_subagent'] || '';
+        document.getElementById('out-lg-multiagent-parallel').textContent            = window.SAMPLES['langgraph_multiagent_parallel']              || '';
+        document.getElementById('out-lg-multiagent-parallel-synthesis').textContent  = window.SAMPLES['synthesis_output']                           || '';
     </script>
 </body>
 

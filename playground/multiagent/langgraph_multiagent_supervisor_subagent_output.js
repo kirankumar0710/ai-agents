@@ -1,167 +1,165 @@
 window.SAMPLES = window.SAMPLES || {};
-window.SAMPLES['langgraph_multiagent_supervisor_subagent'] = [
-    "(venv) kirankumar@192 memory % python3 ./langgraph_multiagent_supervisor_subagent.py",
-    "",
-    "============================================================",
-    "TASK: Write a short guide on the top 3 benefits of LangGraph for production AI agents",
-    "============================================================",
-    "",
-    "🎯 SUPERVISOR — iteration 0",
-    "   Decision: researcher — Parsed from text",
-    "",
-    "🔍 RESEARCHER — working on: Write a short guide on the top 3 benefits of LangGraph for p...",
-    "",
-    "    Research complete:",
-    "    Length: (4695 chars)",
-    "    Content:",
-    "    # Research Report: Top 3 Benefits of LangGraph for Production AI Agents",
-    "",
-    "## Executive Summary",
-    "",
-    "LangGraph is a library built on top of LangChain, specifically designed for creating stateful, multi-actor applications with Large Language Models (LLMs). It provides a graph-based framework that addresses critical challenges in deploying AI agents to production environments. This guide examines the three most significant benefits that make LangGraph particularly suited for production-grade AI agent sy...",
-    "    ",
-    "███████████████████████████████ END OF RESEARCH ████████████████████████████████",
-    "",
-    "🎯 SUPERVISOR — iteration 1",
-    "   Decision: writer — Research has been completed with comprehensive information about the top 3 benefits of LangGraph. However, no writing has been done yet (Writing done is empty). The writer agent should now take this research and create a polished, reader-friendly short guide.",
-    "",
-    "✍️  WRITER — drafting from research...",
-    "",
-    "    Research complete:",
-    "    Length: (4773 chars)",
-    "    Content:",
-    "    # LangGraph for Production AI Agents: A Guide to the Top 3 Benefits",
-    "",
-    "Building AI agents is one thing. Getting them to behave reliably in production is another challenge entirely.",
-    "",
-    "Anyone who's deployed an autonomous agent knows the pain: unpredictable behavior, lost context between sessions, and the nagging question of *what happens when the AI makes a mistake?* LangGraph—a library built on top of LangChain—was designed specifically to solve these problems.",
-    "",
-    "Here are the three benefits that make...",
-    "    ",
-    "█████████████████████████████████ END OF WRITE █████████████████████████████████",
-    "",
-    "🎯 SUPERVISOR — iteration 2",
-    "   Decision: writer — Parsed from text",
-    "",
-    "✍️  WRITER — drafting from research...",
-    "",
-    "    Research complete:",
-    "    Length: (4642 chars)",
-    "    Content:",
-    "    # LangGraph for Production AI Agents: A Guide to the Top 3 Benefits",
-    "",
-    "Building AI agents is one thing. Deploying them to production—where they need to be reliable, predictable, and maintainable—is another challenge entirely.",
-    "",
-    "LangGraph, a library built on top of LangChain, was designed specifically for this challenge. It provides a graph-based framework for creating stateful, multi-actor applications with Large Language Models (LLMs). Here are the three benefits that make it particularly valuable...",
-    "    ",
-    "█████████████████████████████████ END OF WRITE █████████████████████████████████",
-    "",
-    "🎯 SUPERVISOR — iteration 3",
-    "   Decision: researcher — Parsed from text",
-    "",
-    "🔍 RESEARCHER — working on: Write a short guide on the top 3 benefits of LangGraph for p...",
-    "",
-    "    Research complete:",
-    "    Length: (4495 chars)",
-    "    Content:",
-    "    # Research Guide: Top 3 Benefits of LangGraph for Production AI Agents",
-    "",
-    "## Executive Summary",
-    "",
-    "LangGraph is a library developed by LangChain for building stateful, multi-actor applications with Large Language Models (LLMs). It extends the LangChain ecosystem specifically to address the challenges of deploying AI agents in production environments. This guide examines the three most significant benefits that make LangGraph particularly valuable for production-grade AI agent development.",
-    "",
-    "---",
-    "",
-    "## In...",
-    "    ",
-    "███████████████████████████████ END OF RESEARCH ████████████████████████████████",
-    "",
-    "🎯 SUPERVISOR — iteration 4",
-    "   Decision: writer — Parsed from text",
-    "",
-    "✍️  WRITER — drafting from research...",
-    "",
-    "    Research complete:",
-    "    Length: (3894 chars)",
-    "    Content:",
-    "    # Top 3 Benefits of LangGraph for Production AI Agents",
-    "",
-    "Building AI agents that work reliably in production is fundamentally different from creating impressive demos. Production environments demand predictability, fault tolerance, and oversight—qualities that traditional chain-based approaches often struggle to deliver. LangGraph, developed by LangChain, addresses these challenges head-on by modeling agent workflows as graphs rather than linear sequences.",
-    "",
-    "Here are the three most compelling reas...",
-    "    ",
-    "█████████████████████████████████ END OF WRITE █████████████████████████████████",
-    "",
-    "🎯 SUPERVISOR — iteration 5",
-    "   Decision: finish — The task is complete. The researcher has gathered comprehensive information about LangGraph's benefits for production AI agents, and the writer has transformed that research into a polished, well-structured guide. The final output covers all three benefits clearly (graph-based control, persistence/human-in-the-loop, and scalability), includes practical details like statistics and tables, and concludes with actionable guidance. No further work is needed.",
-    "   ⚠️  Max iterations reached, finishing",
-    "",
-    "============================================================",
-    "FINAL OUTPUT:",
-    "============================================================",
-    "# Top 3 Benefits of LangGraph for Production AI Agents",
-    "",
-    "Building AI agents that work reliably in production is fundamentally different from creating impressive demos. Production environments demand predictability, fault tolerance, and oversight—qualities that traditional chain-based approaches often struggle to deliver. LangGraph, developed by LangChain, addresses these challenges head-on by modeling agent workflows as graphs rather than linear sequences.",
-    "",
-    "Here are the three most compelling reasons to consider LangGraph for your production AI agents.",
-    "",
-    "---",
-    "",
-    "## 1. Controllable Agent Architectures Through Graph-Based Design",
-    "",
-    "The most significant advantage of LangGraph is the control it gives you over agent behavior. By structuring workflows as graphs—where nodes represent actions and edges define transitions—you gain explicit visibility into every decision point your agent makes.",
-    "",
-    "**Why this matters for production:**",
-    "",
-    "- **Auditability**: Every branching decision is traceable, making it straightforward to understand why an agent took a particular path",
-    "- **Testability**: Individual nodes can be unit tested in isolation, catching issues before deployment",
-    "- **Maintainability**: Modular design means updates to one component won't cascade unpredictably through your system",
-    "",
-    "Unlike linear chains, LangGraph supports cyclical flows, enabling the iterative reasoning and self-correction loops that sophisticated agents require. Teams migrating from chain-based architectures report **40-60% reductions in debugging time** thanks to clearer execution paths.",
-    "",
-    "---",
-    "",
-    "## 2. Built-in Persistence and Human-in-the-Loop Capabilities",
-    "",
-    "Production agents must handle interruptions gracefully—whether from system failures, long-running tasks, or the need for human oversight. LangGraph provides native checkpointing and human-in-the-loop features that address these requirements directly.",
-    "",
-    "**Key capabilities include:**",
-    "",
-    "| Feature | Production Benefit |",
-    "|---------|-------------------|",
-    "| Automatic state snapshots | Resume from any point after failures |",
-    "| Approval gates | Review high-stakes actions before execution |",
-    "| Edit capabilities | Modify agent state mid-workflow |",
-    "| Time-travel debugging | Replay and analyze past states |",
-    "",
-    "This matters because **78% of enterprises** require human oversight capabilities before deploying AI agents in customer-facing or decision-making roles. LangGraph makes these patterns first-class citizens rather than afterthoughts.",
-    "",
-    "The persistence layer supports SQLite for development and PostgreSQL for production, with options for custom enterprise backends.",
-    "",
-    "---",
-    "",
-    "## 3. Scalability and Production-Ready Infrastructure",
-    "",
-    "LangGraph isn't just a library—it's designed with production deployment in mind. The LangGraph Platform (available as cloud or self-hosted) provides the operational infrastructure production systems demand.",
-    "",
-    "**What you get out of the box:**",
-    "",
-    "- **Horizontal scalability** for agent execution across multiple instances",
-    "- **Queue-based task management** for handling variable workloads",
-    "- **Concurrent execution support** for parallel agent operations",
-    "- **Resource isolation** between agent instances to prevent interference",
-    "",
-    "These features eliminate much of the custom infrastructure work teams typically face when moving agents from prototype to production.",
-    "",
-    "---",
-    "",
-    "## The Bottom Line",
-    "",
-    "LangGraph addresses the gap between \"agent that works in a notebook\" and \"agent that runs reliably in production.\" Its graph-based architecture provides the control and visibility production systems require, while built-in persistence and human oversight features handle the real-world complexities that simpler frameworks ignore.",
-    "",
-    "If you're building AI agents intended for production deployment—particularly in environments requiring compliance, fault tolerance, or human oversight—LangGraph offers a foundation designed specifically for these challenges.",
-    "",
-    "    ",
-    "█████████████████████████████████ END OF FINAL █████████████████████████████████",
-    "(venv) kirankumar@192 memory %",
-].join("\n");
+window.SAMPLES['langgraph_multiagent_supervisor_subagent'] = `(venv) kirankumar@192 memory % python3 ./langgraph_multiagent_supervisor_subagent.py
+
+============================================================
+TASK: Write a short guide on the top 3 benefits of LangGraph for production AI agents
+============================================================
+
+🎯 SUPERVISOR — iteration 0
+   Decision: researcher — Parsed from text
+
+🔍 RESEARCHER — working on: Write a short guide on the top 3 benefits of LangGraph for p...
+
+    Research complete:
+    Length: (4695 chars)
+    Content:
+    # Research Report: Top 3 Benefits of LangGraph for Production AI Agents
+
+## Executive Summary
+
+LangGraph is a library built on top of LangChain, specifically designed for creating stateful, multi-actor applications with Large Language Models (LLMs). It provides a graph-based framework that addresses critical challenges in deploying AI agents to production environments. This guide examines the three most significant benefits that make LangGraph particularly suited for production-grade AI agent sy...
+
+███████████████████████████████ END OF RESEARCH ████████████████████████████████
+
+🎯 SUPERVISOR — iteration 1
+   Decision: writer — Research has been completed with comprehensive information about the top 3 benefits of LangGraph. However, no writing has been done yet (Writing done is empty). The writer agent should now take this research and create a polished, reader-friendly short guide.
+
+✍️  WRITER — drafting from research...
+
+    Research complete:
+    Length: (4773 chars)
+    Content:
+    # LangGraph for Production AI Agents: A Guide to the Top 3 Benefits
+
+Building AI agents is one thing. Getting them to behave reliably in production is another challenge entirely.
+
+Anyone who's deployed an autonomous agent knows the pain: unpredictable behavior, lost context between sessions, and the nagging question of *what happens when the AI makes a mistake?* LangGraph—a library built on top of LangChain—was designed specifically to solve these problems.
+
+Here are the three benefits that make...
+
+█████████████████████████████████ END OF WRITE █████████████████████████████████
+
+🎯 SUPERVISOR — iteration 2
+   Decision: writer — Parsed from text
+
+✍️  WRITER — drafting from research...
+
+    Research complete:
+    Length: (4642 chars)
+    Content:
+    # LangGraph for Production AI Agents: A Guide to the Top 3 Benefits
+
+Building AI agents is one thing. Deploying them to production—where they need to be reliable, predictable, and maintainable—is another challenge entirely.
+
+LangGraph, a library built on top of LangChain, was designed specifically for this challenge. It provides a graph-based framework for creating stateful, multi-actor applications with Large Language Models (LLMs). Here are the three benefits that make it particularly valuable...
+
+█████████████████████████████████ END OF WRITE █████████████████████████████████
+
+🎯 SUPERVISOR — iteration 3
+   Decision: researcher — Parsed from text
+
+🔍 RESEARCHER — working on: Write a short guide on the top 3 benefits of LangGraph for p...
+
+    Research complete:
+    Length: (4495 chars)
+    Content:
+    # Research Guide: Top 3 Benefits of LangGraph for Production AI Agents
+
+## Executive Summary
+
+LangGraph is a library developed by LangChain for building stateful, multi-actor applications with Large Language Models (LLMs). It extends the LangChain ecosystem specifically to address the challenges of deploying AI agents in production environments. This guide examines the three most significant benefits that make LangGraph particularly valuable for production-grade AI agent development.
+
+---
+
+## In...
+
+███████████████████████████████ END OF RESEARCH ████████████████████████████████
+
+🎯 SUPERVISOR — iteration 4
+   Decision: writer — Parsed from text
+
+✍️  WRITER — drafting from research...
+
+    Research complete:
+    Length: (3894 chars)
+    Content:
+    # Top 3 Benefits of LangGraph for Production AI Agents
+
+Building AI agents that work reliably in production is fundamentally different from creating impressive demos. Production environments demand predictability, fault tolerance, and oversight—qualities that traditional chain-based approaches often struggle to deliver. LangGraph, developed by LangChain, addresses these challenges head-on by modeling agent workflows as graphs rather than linear sequences.
+
+Here are the three most compelling reas...
+
+█████████████████████████████████ END OF WRITE █████████████████████████████████
+
+🎯 SUPERVISOR — iteration 5
+   Decision: finish — The task is complete. The researcher has gathered comprehensive information about LangGraph's benefits for production AI agents, and the writer has transformed that research into a polished, well-structured guide. The final output covers all three benefits clearly (graph-based control, persistence/human-in-the-loop, and scalability), includes practical details like statistics and tables, and concludes with actionable guidance. No further work is needed.
+   ⚠️  Max iterations reached, finishing
+
+============================================================
+FINAL OUTPUT:
+============================================================
+# Top 3 Benefits of LangGraph for Production AI Agents
+
+Building AI agents that work reliably in production is fundamentally different from creating impressive demos. Production environments demand predictability, fault tolerance, and oversight—qualities that traditional chain-based approaches often struggle to deliver. LangGraph, developed by LangChain, addresses these challenges head-on by modeling agent workflows as graphs rather than linear sequences.
+
+Here are the three most compelling reasons to consider LangGraph for your production AI agents.
+
+---
+
+## 1. Controllable Agent Architectures Through Graph-Based Design
+
+The most significant advantage of LangGraph is the control it gives you over agent behavior. By structuring workflows as graphs—where nodes represent actions and edges define transitions—you gain explicit visibility into every decision point your agent makes.
+
+**Why this matters for production:**
+
+- **Auditability**: Every branching decision is traceable, making it straightforward to understand why an agent took a particular path
+- **Testability**: Individual nodes can be unit tested in isolation, catching issues before deployment
+- **Maintainability**: Modular design means updates to one component won't cascade unpredictably through your system
+
+Unlike linear chains, LangGraph supports cyclical flows, enabling the iterative reasoning and self-correction loops that sophisticated agents require. Teams migrating from chain-based architectures report **40-60% reductions in debugging time** thanks to clearer execution paths.
+
+---
+
+## 2. Built-in Persistence and Human-in-the-Loop Capabilities
+
+Production agents must handle interruptions gracefully—whether from system failures, long-running tasks, or the need for human oversight. LangGraph provides native checkpointing and human-in-the-loop features that address these requirements directly.
+
+**Key capabilities include:**
+
+| Feature | Production Benefit |
+|---------|-------------------|
+| Automatic state snapshots | Resume from any point after failures |
+| Approval gates | Review high-stakes actions before execution |
+| Edit capabilities | Modify agent state mid-workflow |
+| Time-travel debugging | Replay and analyze past states |
+
+This matters because **78% of enterprises** require human oversight capabilities before deploying AI agents in customer-facing or decision-making roles. LangGraph makes these patterns first-class citizens rather than afterthoughts.
+
+The persistence layer supports SQLite for development and PostgreSQL for production, with options for custom enterprise backends.
+
+---
+
+## 3. Scalability and Production-Ready Infrastructure
+
+LangGraph isn't just a library—it's designed with production deployment in mind. The LangGraph Platform (available as cloud or self-hosted) provides the operational infrastructure production systems demand.
+
+**What you get out of the box:**
+
+- **Horizontal scalability** for agent execution across multiple instances
+- **Queue-based task management** for handling variable workloads
+- **Concurrent execution support** for parallel agent operations
+- **Resource isolation** between agent instances to prevent interference
+
+These features eliminate much of the custom infrastructure work teams typically face when moving agents from prototype to production.
+
+---
+
+## The Bottom Line
+
+LangGraph addresses the gap between "agent that works in a notebook" and "agent that runs reliably in production." Its graph-based architecture provides the control and visibility production systems require, while built-in persistence and human oversight features handle the real-world complexities that simpler frameworks ignore.
+
+If you're building AI agents intended for production deployment—particularly in environments requiring compliance, fault tolerance, or human oversight—LangGraph offers a foundation designed specifically for these challenges.
+
+
+█████████████████████████████████ END OF FINAL █████████████████████████████████
+(venv) kirankumar@192 memory %`;

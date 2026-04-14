@@ -1,30 +1,28 @@
 window.SAMPLES = window.SAMPLES || {};
-window.SAMPLES['lg_basic'] = [
-    "==================================================",
-    "LangGraph Agent Starting",
-    "==================================================",
-    "",
-    "[HumanMessage]",
-    "Search for the latest Python version, then calculate 3.12 * 1000,",
-    "and save a summary to 'python_summary.txt'",
-    "",
-    "🔧 Calling tool: web_search_tool",
-    "   Args: {'query': 'latest Python version 2024'}",
-    "   Result: Python 3.13 — released October 2024...",
-    "",
-    "🔧 Calling tool: calculator_tool",
-    "   Args: {'expression': '3.12 * 1000'}",
-    "   Result: 3120.0",
-    "",
-    "🔧 Calling tool: write_file_tool",
-    "   Args: {'filename': 'python_summary.txt', 'content': '...'}",
-    "   Result: Successfully wrote 142 characters to python_summary.txt",
-    "",
-    "[AIMessage]",
-    "Done! Here's a summary:",
-    "- Latest Python version: 3.13 (released Oct 2024)",
-    "- 3.12 × 1000 = 3,120.0",
-    "- Summary saved to python_summary.txt ✅",
-    "",
-    "✅ Agent finished",
-].join("\n");
+window.SAMPLES['lg_basic'] = `==================================================
+LangGraph Agent Starting
+==================================================
+
+[HumanMessage]
+Search for the latest Python version, then calculate 3.12 * 1000,
+and save a summary to 'python_summary.txt'
+
+🔧 Calling tool: web_search_tool
+   Args: {'query': 'latest Python version 2024'}
+   Result: Python 3.13 — released October 2024...
+
+🔧 Calling tool: calculator_tool
+   Args: {'expression': '3.12 * 1000'}
+   Result: 3120.0
+
+🔧 Calling tool: write_file_tool
+   Args: {'filename': 'python_summary.txt', 'content': '...'}
+   Result: Successfully wrote 142 characters to python_summary.txt
+
+[AIMessage]
+Done! Here's a summary:
+- Latest Python version: 3.13 (released Oct 2024)
+- 3.12 × 1000 = 3,120.0
+- Summary saved to python_summary.txt ✅
+
+✅ Agent finished`;

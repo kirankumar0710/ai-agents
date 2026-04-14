@@ -1,29 +1,27 @@
 window.SAMPLES = window.SAMPLES || {};
-window.SAMPLES['in_context_memory'] = [
-    "(venv) kirankumar@192 memory % python3 ./in-context-memory.py",
-    "Hello XYZ! Nice to meet you. I've noted that you're from Bangalore - the tech hub and \"Silicon Valley of India.\" ",
-    "",
-    "Is there anything I can help you with today?",
-    "That's exciting, XYZ! Building AI agents is a fascinating and rapidly evolving field. Given that you're in Bangalore, you're in a great ecosystem for startup innovation.",
-    "",
-    "I've noted that you're working on AI agents for a startup.",
-    "",
-    "A few things I'd love to know more about:",
-    "",
-    "1. **What type of AI agents** are you building? (e.g., customer support, coding assistants, autonomous task agents, research agents, etc.)",
-    "",
-    "2. **What stage** is your startup at? (ideation, MVP, scaling?)",
-    "",
-    "3. **What tech stack** are you using? (LangChain, AutoGen, CrewAI, custom framework, etc.)",
-    "",
-    "Feel free to share more, and I'd be happy to discuss ideas, architectures, challenges, or anything else related to your work!",
-    "Here's what I remember about you:",
-    "",
-    "1. **Name:** XYZ",
-    "2. **Location:** Bangalore",
-    "3. **Work:** You're building AI agents for a startup",
-    "",
-    "That's everything you've shared with me so far in our conversation. Feel free to tell me more anytime!",
-    "Memory: 6 messages, ~1195 chars",
-    "(venv) kirankumar@192 memory % ",
-].join("\n");
+window.SAMPLES['in_context_memory'] = `(venv) kirankumar@192 memory % python3 ./in-context-memory.py
+Hello XYZ! Nice to meet you. I've noted that you're from Bangalore - the tech hub and "Silicon Valley of India."
+
+Is there anything I can help you with today?
+That's exciting, XYZ! Building AI agents is a fascinating and rapidly evolving field. Given that you're in Bangalore, you're in a great ecosystem for startup innovation.
+
+I've noted that you're working on AI agents for a startup.
+
+A few things I'd love to know more about:
+
+1. **What type of AI agents** are you building? (e.g., customer support, coding assistants, autonomous task agents, research agents, etc.)
+
+2. **What stage** is your startup at? (ideation, MVP, scaling?)
+
+3. **What tech stack** are you using? (LangChain, AutoGen, CrewAI, custom framework, etc.)
+
+Feel free to share more, and I'd be happy to discuss ideas, architectures, challenges, or anything else related to your work!
+Here's what I remember about you:
+
+1. **Name:** XYZ
+2. **Location:** Bangalore
+3. **Work:** You're building AI agents for a startup
+
+That's everything you've shared with me so far in our conversation. Feel free to tell me more anytime!
+Memory: 6 messages, ~1195 chars
+(venv) kirankumar@192 memory % `;
