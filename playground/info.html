@@ -22,6 +22,7 @@
     <script src="multiagent/langraph_multiagent_parallel_output_file.js"></script>
     <script src="mcp/mcp_server_command_line_output.js"></script>
     <script src="mcp/mcp_server_using_inspector_output.js"></script>
+    <script src="rag/rag_pipeline_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -33,8 +34,8 @@
             --accent2: #0e9e82;
             --accent3: #d4700a;
             --accent4: #2563eb;
-            --text: #111318;
-            --muted: #6b7280;
+            --text: #0a0c10;
+            --muted: #374151;
             --mono: 'JetBrains Mono', monospace;
             --sans: 'Syne', sans-serif;
         }
@@ -82,7 +83,7 @@
         .badge {
             display: inline-block;
             font-family: var(--mono);
-            font-size: 11px;
+            font-size: 13px;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             color: var(--accent);
@@ -106,7 +107,7 @@
 
         .subtitle {
             font-family: var(--mono);
-            font-size: 13px;
+            font-size: 15px;
             color: var(--muted);
             line-height: 1.6;
         }
@@ -123,7 +124,7 @@
 
         .tab {
             font-family: var(--mono);
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 700;
             letter-spacing: 0.05em;
             padding: 10px 20px;
@@ -180,7 +181,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 18px;
             flex-shrink: 0;
         }
 
@@ -209,19 +210,19 @@
         }
 
         .tool-name {
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 600;
             margin-bottom: 3px;
         }
 
         .tool-file {
             font-family: var(--mono);
-            font-size: 11px;
+            font-size: 13px;
             color: var(--muted);
         }
 
         .chevron {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--muted);
             transition: transform 0.3s;
         }
@@ -241,7 +242,7 @@
         }
 
         .tool-desc {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--muted);
             line-height: 1.7;
             padding: 16px 0 20px;
@@ -264,7 +265,7 @@
 
         .section-label {
             font-family: var(--mono);
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--muted);
@@ -276,7 +277,7 @@
             align-items: flex-start;
             gap: 10px;
             margin-bottom: 10px;
-            font-size: 12px;
+            font-size: 14px;
         }
 
         .param-name {
@@ -288,7 +289,7 @@
 
         .param-type {
             font-family: var(--mono);
-            font-size: 10px;
+            font-size: 12px;
             color: var(--accent3);
             background: rgba(247, 162, 106, 0.1);
             padding: 1px 6px;
@@ -312,7 +313,7 @@
 
         .flow-step {
             font-family: var(--mono);
-            font-size: 11px;
+            font-size: 13px;
             padding: 6px 12px;
             border-radius: 4px;
             background: var(--bg);
@@ -327,7 +328,7 @@
 
         .flow-arrow {
             color: var(--muted);
-            font-size: 12px;
+            font-size: 14px;
         }
 
         /* ── code block ── */
@@ -337,7 +338,7 @@
             border-radius: 6px;
             padding: 16px;
             font-family: var(--mono);
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             overflow-x: auto;
             margin-bottom: 16px;
@@ -369,7 +370,7 @@
         .key-point {
             display: flex;
             gap: 10px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.6;
             color: var(--muted);
         }
@@ -433,7 +434,7 @@
 
         .big-step-label {
             font-family: var(--mono);
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: 0.1em;
             text-transform: uppercase;
             margin-bottom: 8px;
@@ -452,13 +453,13 @@
         }
 
         .big-step-text {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--muted);
             line-height: 1.5;
         }
 
         .big-arrow {
-            font-size: 20px;
+            font-size: 22px;
             color: var(--muted);
             padding: 0 8px;
         }
@@ -466,7 +467,7 @@
         .flow-note {
             margin-top: 32px;
             font-family: var(--mono);
-            font-size: 11px;
+            font-size: 13px;
             color: var(--muted);
             line-height: 1.8;
         }
@@ -482,7 +483,7 @@
 
         .output-label {
             font-family: var(--mono);
-            font-size: 10px;
+            font-size: 12px;
             letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--muted);
@@ -494,7 +495,7 @@
 
         .output-label::after {
             content: '← edit this';
-            font-size: 9px;
+            font-size: 11px;
             color: var(--accent3);
             opacity: 0.6;
         }
@@ -505,11 +506,13 @@
             border-radius: 6px;
             padding: 16px 20px;
             font-family: var(--mono);
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             color: var(--accent2);
             white-space: pre;
             overflow-x: auto;
+            overflow-y: auto;
+            max-height: 400px;
             min-height: 60px;
         }
 
@@ -551,7 +554,7 @@
         }
 
         .pg-desc {
-            font-size: 13px;
+            font-size: 15px;
             color: var(--muted);
             line-height: 1.7;
             padding: 16px 0 20px;
@@ -566,7 +569,7 @@
 
         .concept-tag {
             font-family: var(--mono);
-            font-size: 10px;
+            font-size: 12px;
             padding: 4px 10px;
             border-radius: 3px;
             border: 1px solid var(--border);
@@ -580,7 +583,7 @@
 
         .pg-group-label {
             font-family: var(--mono);
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
@@ -1310,7 +1313,7 @@
                     <!-- Generated file: agent_loop_cli/weather_summary.txt — edit SAMPLES.weather_file above -->
                     <div class="output-wrap" style="margin-top:16px">
                         <div class="output-label">Generated File &nbsp;<span
-                                style="color:var(--accent3);font-size:9px;opacity:0.7">← weather_summary.txt</span>
+                                style="color:var(--accent3);font-size:11px;opacity:0.7">← weather_summary.txt</span>
                         </div>
                         <pre class="output-block" id="out-weather-file"></pre>
                     </div>
@@ -1877,6 +1880,114 @@
 
             </div> <!-- /group-mcp -->
 
+            <!-- ── group: RAG ── -->
+            <div class="pg-group" id="group-rag">
+                <div class="pg-group-label">6 — RAG</div>
+
+            <!-- ── rag_pipeline ── -->
+            <div class="pg-card" id="pg-rag-pipeline">
+                <div class="pg-header" onclick="togglePg('pg-rag-pipeline')">
+                    <div class="tool-icon icon-teal">🔍</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_pipeline</div>
+                        <div class="tool-file">playground/rag/rag_pipeline.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        A minimal <strong>RAG (Retrieval-Augmented Generation)</strong> pipeline using
+                        <em>Qdrant</em> as the vector store and <em>sentence-transformers</em> for embeddings.
+                        Demonstrates plain vector search, metadata-filtered search, and injecting retrieved
+                        context into an LLM prompt — all locally, no cloud credentials required.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">RAG</span>
+                        <span class="concept-tag">Vector DB</span>
+                        <span class="concept-tag">Qdrant</span>
+                        <span class="concept-tag">sentence-transformers</span>
+                        <span class="concept-tag">cosine similarity</span>
+                        <span class="concept-tag">metadata filter</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How to run</div>
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install qdrant-client sentence-transformers<br>
+                            <br>
+                            <span class="cm"># Run the pipeline</span><br>
+                            python3 rag_pipeline.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">Output Observations</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Plain query — top-2 from entire collection:</strong> among all 5 docs, the 2 closest vectors to "How do deep learning models train?" were <em>Neural networks learn via backpropagation</em> (score 0.550) and <em>Python is a dynamically typed language</em> (score 0.114)</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Why Python ranks 2nd — not RAG:</strong> "RAG stands for Retrieval-Augmented Generation" scored only 0.012 and came 5th overall — almost no word or semantic field overlap with "deep learning training", so its vector ends up far away</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Embedding space, not meaning:</strong> Python sneaks in at rank 2 because both sentences live in the programming/CS region of embedding space — the model measures vector distance, not human-level semantic similarity</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Metadata filter fixes it:</strong> filtering on <code>source=ml</code> restricts the candidate set so only ML docs compete — RAG (score 0.012) now appears at rank 2, which is the correct domain-scoped result</div>
+                        </div>
+                    </div>
+
+                    <div class="section-box" style="margin-top:16px;margin-bottom:16px">
+                        <div class="section-label">Note</div>
+                        <p style="font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:12px">
+                            The plain query returned top-2 from the entire collection with no filter. Among all 5 docs, these were the 2 closest vectors to your query:
+                        </p>
+                        <table style="font-family:var(--mono);font-size:14px;border-collapse:collapse;width:100%;margin-bottom:4px">
+                            <thead>
+                                <tr style="border-bottom:2px solid var(--border)">
+                                    <th style="text-align:left;padding:6px 24px 6px 0;color:var(--text);font-weight:600;white-space:nowrap">Rank</th>
+                                    <th style="text-align:left;padding:6px 24px 6px 0;color:var(--text);font-weight:600;width:100%">Doc</th>
+                                    <th style="text-align:right;padding:6px 0;color:var(--text);font-weight:600;white-space:nowrap">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding:6px 24px 6px 0;color:var(--muted);white-space:nowrap">1st</td>
+                                    <td style="padding:6px 24px 6px 0;color:var(--muted)">Neural networks learn via backpropagation.</td>
+                                    <td style="padding:6px 0;color:var(--accent2);text-align:right;white-space:nowrap">0.550</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:6px 24px 6px 0;color:var(--muted);white-space:nowrap">2nd</td>
+                                    <td style="padding:6px 24px 6px 0;color:var(--muted)">Python is a dynamically typed language.</td>
+                                    <td style="padding:6px 0;color:var(--accent2);text-align:right;white-space:nowrap">0.114</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:12px">
+                            <strong>"RAG stands for Retrieval-Augmented Generation."</strong> scored 0.012 — it came 5th overall, so it was excluded from the top-2.
+                        </p>
+                        <p style="font-size:14px;line-height:1.7;color:var(--muted);margin-bottom:12px">
+                            The reason Python sneaks in at rank 2 is purely mathematical. The sentence <em>"How do deep learning models train?"</em> shares embedding space proximity with <em>"Python is a dynamically typed language"</em> — both talk about programming/CS concepts — even though semantically it feels wrong to you. The model doesn't "understand" meaning; it places vectors in space and measures distance.
+                        </p>
+                        <p style="font-size:14px;line-height:1.7;color:var(--muted)">
+                            <strong>"RAG stands for Retrieval-Augmented Generation."</strong> has almost no word overlap or semantic field overlap with "deep learning training" — so its vector ends up far away.
+                        </p>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-pipeline"></pre>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- /group-rag -->
+
         </div>
 
 
@@ -2089,6 +2200,7 @@
         document.getElementById('out-lg-multiagent-parallel-synthesis').textContent  = window.SAMPLES['synthesis_output']                           || '';
         document.getElementById('out-mcp-server').textContent                        = window.SAMPLES['mcp_server']                                 || '';
         document.getElementById('out-mcp-inspector').textContent                     = window.SAMPLES['mcp_inspector']                              || '';
+        document.getElementById('out-rag-pipeline').textContent                      = window.SAMPLES['rag_pipeline']                               || '';
     </script>
 </body>
 
