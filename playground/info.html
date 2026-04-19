@@ -23,6 +23,7 @@
     <script src="mcp/mcp_server_command_line_output.js"></script>
     <script src="mcp/mcp_server_using_inspector_output.js"></script>
     <script src="rag/rag_pipeline_output.js"></script>
+    <script src="rag/rag_chunk_crossencoder_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -1986,6 +1987,74 @@
                 </div>
             </div>
 
+            <!-- ── rag_chunk_crossencoder ── -->
+            <div class="pg-card" id="pg-rag-chunk-crossencoder">
+                <div class="pg-header" onclick="togglePg('pg-rag-chunk-crossencoder')">
+                    <div class="tool-icon icon-teal">🔁</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_chunk_crossencoder</div>
+                        <div class="tool-file">playground/rag/rag_chunk_crossencoder.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        A two-phase RAG pipeline that chunks a PDF, embeds chunks with
+                        <em>sentence-transformers</em>, stores them in <em>ChromaDB</em>, and then at query
+                        time retrieves the top-10 candidates and <strong>reranks them with a
+                        CrossEncoder</strong> before passing the best 3 to Claude for an answer.
+                        Demonstrates how reranking dramatically improves precision over plain
+                        vector search.
+                    </div>
+
+                    <div class="concepts">
+                        <span class="concept-tag">RAG</span>
+                        <span class="concept-tag">Chunking</span>
+                        <span class="concept-tag">ChromaDB</span>
+                        <span class="concept-tag">sentence-transformers</span>
+                        <span class="concept-tag">CrossEncoder</span>
+                        <span class="concept-tag">Reranking</span>
+                        <span class="concept-tag">Claude API</span>
+                    </div>
+
+                    <div class="section-box" style="margin-bottom:16px">
+                        <div class="section-label">How to run</div>
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install pypdf sentence-transformers chromadb langchain anthropic<br>
+                            <br>
+                            <span class="cm"># Run the pipeline</span><br>
+                            python3 rag_chunk_crossencoder.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">How It Works</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Phase 1 — Indexing:</strong> loads a PDF with <code>pypdf</code>, splits it into 500-character chunks (50-char overlap) using <code>RecursiveCharacterTextSplitter</code>, embeds each chunk with <code>all-MiniLM-L6-v2</code>, and upserts into a persistent ChromaDB collection.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Phase 2 — Query &amp; Rerank:</strong> embeds the question with the same model, retrieves top-10 candidates from ChromaDB, then scores every <code>(question, chunk)</code> pair with the <code>cross-encoder/ms-marco-MiniLM-L-6-v2</code> CrossEncoder — a much more precise but slower model.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Why two stages?</strong> Bi-encoder embeddings are fast but approximate — they compare independently encoded vectors. A CrossEncoder sees both texts together and gives a more accurate relevance score; it's too slow to run on the whole collection, so it only rescores the top-10 shortlist.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Grounded answer:</strong> the top-3 reranked chunks become the context for a Claude prompt that is instructed to cite page numbers for every claim — minimising hallucination.</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-chunk-crossencoder"></pre>
+                    </div>
+                </div>
+            </div>
+
             </div> <!-- /group-rag -->
 
         </div>
@@ -2201,6 +2270,7 @@
         document.getElementById('out-mcp-server').textContent                        = window.SAMPLES['mcp_server']                                 || '';
         document.getElementById('out-mcp-inspector').textContent                     = window.SAMPLES['mcp_inspector']                              || '';
         document.getElementById('out-rag-pipeline').textContent                      = window.SAMPLES['rag_pipeline']                               || '';
+        document.getElementById('out-rag-chunk-crossencoder').textContent            = window.SAMPLES['rag_chunk_crossencoder']                      || '';
     </script>
 </body>
 
