@@ -24,6 +24,7 @@
     <script src="mcp/mcp_server_using_inspector_output.js"></script>
     <script src="rag/rag_pipeline_output.js"></script>
     <script src="rag/rag_chunk_crossencoder_output.js"></script>
+    <script src="rag/rag_full_pipeline_with_ragas_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -2055,6 +2056,67 @@
                 </div>
             </div>
 
+            <!-- ── rag_full_pipeline_with_ragas ── -->
+            <div class="pg-card" id="pg-rag-full-pipeline">
+                <div class="pg-header" onclick="togglePg('pg-rag-full-pipeline')">
+                    <div class="tool-icon icon-teal">🗂️</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_full_pipeline_with_ragas</div>
+                        <div class="tool-file">playground/rag/rag_full_pipeline_with_ragas.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Minimal end-to-end RAG system — ingest a PDF into ChromaDB and ask questions answered by Claude
+                        with page-level citations. Combines PDF parsing (<code>pypdf</code>), chunking
+                        (<code>RecursiveCharacterTextSplitter</code>), bi-encoder embeddings
+                        (<code>all-MiniLM-L6-v2</code>), and a single Claude prompt that is constrained to cite only
+                        from the retrieved context.
+                    </div>
+
+                    <div class="concept-tags">
+                        <span class="concept-tag">RAG</span>
+                        <span class="concept-tag">ChromaDB</span>
+                        <span class="concept-tag">sentence-transformers</span>
+                        <span class="concept-tag">PDF ingestion</span>
+                        <span class="concept-tag">grounded answers</span>
+                    </div>
+
+                    <div class="section-label">Run It</div>
+                    <div class="section-box">
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install anthropic chromadb pypdf sentence-transformers langchain-text-splitters<br>
+                            <br>
+                            <span class="cm"># Run the pipeline</span><br>
+                            python3 rag_full_pipeline_with_ragas.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">How It Works</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Ingest:</strong> reads every page of the PDF with <code>pypdf</code>, splits text into 500-character chunks (50-char overlap), embeds with <code>all-MiniLM-L6-v2</code>, and upserts into a persistent ChromaDB collection keyed by <code>p{page}_c{chunk}</code>.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Query:</strong> embeds the question with the same model, retrieves the top-5 chunks from ChromaDB, and concatenates them into a context block with page labels.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Answer:</strong> sends a Claude prompt instructed to answer <em>only</em> from the provided context and cite page numbers — minimising hallucination without reranking overhead.</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-full-pipeline"></pre>
+                    </div>
+                </div>
+            </div>
+
             </div> <!-- /group-rag -->
 
         </div>
@@ -2271,6 +2333,7 @@
         document.getElementById('out-mcp-inspector').textContent                     = window.SAMPLES['mcp_inspector']                              || '';
         document.getElementById('out-rag-pipeline').textContent                      = window.SAMPLES['rag_pipeline']                               || '';
         document.getElementById('out-rag-chunk-crossencoder').textContent            = window.SAMPLES['rag_chunk_crossencoder']                      || '';
+        document.getElementById('out-rag-full-pipeline').textContent                = window.SAMPLES['rag_full_pipeline']                              || '';
     </script>
 </body>
 

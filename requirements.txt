@@ -8,3 +8,5 @@ mcp
 chromadb
 sentence_transformers
 pypdf
+ragas
+langchain_huggingface
