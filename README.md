@@ -8,15 +8,21 @@ Learning and building AI agents using Claude (Anthropic).
 |--------|---------|
 | `lib/` | Reusable utilities — key loading, auth, config loading |
 | `tools/` | Tool implementations — calculator, weather, fileops |
-| `playground/` | Learning experiments — single tool, multi tool |
+| `playground/` | Learning experiments — basic tools, RAG, memory, agents, MCP |
 | `projects/` | Production work |
 
 ## Playground
 
 | Folder | What it covers |
 |--------|---------------|
-| `single_tool/` | One tool, basic call 1 → execute → call 2 cycle |
-| `multi_tool/` | Multiple tools, routing by tool_name |
+| `basic/single_tool/` | One tool, basic call 1 → execute → call 2 cycle |
+| `basic/multi_tool/` | Multiple tools, routing by tool_name |
+| `basic/agent_loop_cli/` | Interactive agent loop with CLI, weather + file tools |
+| `rag/` | RAG pipeline — chunking, retrieval, cross-encoder reranking, query rewrite, multi-hop, RAGAS eval |
+| `memory/` | In-context memory, external DB memory, LangGraph memory store |
+| `multiagent/` | LangGraph parallel agents, supervisor/subagent pattern |
+| `langgraph/` | LangGraph basics, human-in-the-loop travel planner |
+| `mcp/` | MCP server implementation and inspector usage |
 
 Export them before running:
 
