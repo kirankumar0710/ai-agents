@@ -99,7 +99,8 @@ print(f"With input: {tool_input}")
 
 # YOU execute the tool Claude picked — Claude cannot run code itself
 tool_result = (
-    cal.calculator(tool_input["expression"])
+    # cal.calculator(tool_input["expression"])  # direct call (bypasses @tool decorator)
+    cal.calculator_tool.invoke({"expression": tool_input["expression"]})
     if tool_name == "calculator"
     else f"Unknown tool: {tool_name}"
 )

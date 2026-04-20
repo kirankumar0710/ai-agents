@@ -25,6 +25,8 @@
     <script src="rag/rag_pipeline_output.js"></script>
     <script src="rag/rag_chunk_crossencoder_output.js"></script>
     <script src="rag/rag_full_pipeline_with_ragas_output.js"></script>
+    <script src="rag/rag_agent_retrieve_output.js"></script>
+    <script src="rag/rag_agent_multihop_output.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -2117,6 +2119,127 @@
                 </div>
             </div>
 
+            <!-- ── rag_agent_retrieve ── -->
+            <div class="pg-card" id="pg-rag-agent-retrieve">
+                <div class="pg-header" onclick="togglePg('pg-rag-agent-retrieve')">
+                    <div class="tool-icon icon-teal">🤖</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_agent_retrieve</div>
+                        <div class="tool-file">playground/rag/rag_agent_retrieve.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Agentic RAG with a ReAct agent — the agent decides whether to call <code>retrieve()</code> based on its own reasoning.
+                        If the answer is already known it responds directly; if external knowledge is needed it retrieves first.
+                        This is the core shift from vanilla RAG (always retrieves) to agentic RAG (retrieves only when needed).
+                    </div>
+
+                    <div class="concept-tags">
+                        <span class="concept-tag">Agentic RAG</span>
+                        <span class="concept-tag">ReAct</span>
+                        <span class="concept-tag">LangChain</span>
+                        <span class="concept-tag">tool use</span>
+                        <span class="concept-tag">conditional retrieval</span>
+                    </div>
+
+                    <div class="section-label">Run It</div>
+                    <div class="section-box">
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install langchain langchain-anthropic langgraph chromadb sentence-transformers<br>
+                            <br>
+                            <span class="cm"># Run the agent</span><br>
+                            python3 rag_agent_retrieve.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">How It Works</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>ReAct agent:</strong> a <code>create_agent</code> agent is given <code>retrieve()</code> as an optional tool — it reasons before deciding whether to call it.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>No retrieval:</strong> for questions Claude already knows (e.g. "What is 2 + 2?") the tool is never called — no wasted embeddings or DB queries.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Retrieval when needed:</strong> for unknown questions (e.g. "Who founded Scale AI?") the agent calls <code>retrieve()</code>, reads the docs, and then answers.</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-agent-retrieve"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── rag_agent_multihop ── -->
+            <div class="pg-card" id="pg-rag-agent-multihop">
+                <div class="pg-header" onclick="togglePg('pg-rag-agent-multihop')">
+                    <div class="tool-icon icon-teal">🔁</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_agent_multihop</div>
+                        <div class="tool-file">playground/rag/rag_agent_multihop.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Multi-hop RAG with a LangGraph pipeline — solves complex questions that require chaining two retrieval steps.
+                        Claude reasons over the first hop to identify what's still missing, then retrieves again on the gap before producing the final answer.
+                    </div>
+
+                    <div class="concept-tags">
+                        <span class="concept-tag">Multi-hop RAG</span>
+                        <span class="concept-tag">LangGraph</span>
+                        <span class="concept-tag">StateGraph</span>
+                        <span class="concept-tag">iterative retrieval</span>
+                        <span class="concept-tag">chain-of-thought</span>
+                    </div>
+
+                    <div class="section-label">Run It</div>
+                    <div class="section-box">
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install langchain langchain-anthropic langgraph chromadb sentence-transformers<br>
+                            <br>
+                            <span class="cm"># Run the multi-hop agent</span><br>
+                            python3 rag_agent_multihop.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">How It Works</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Hop 1 — broad retrieve:</strong> searches ChromaDB on the original question and collects the top-5 chunks.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Reason:</strong> Claude reads the first-hop docs and generates a focused follow-up query for what's still missing.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Hop 2 — targeted retrieve:</strong> searches again on the follow-up query and appends results to the accumulated context.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Answer:</strong> combines all docs from both hops and generates the final answer — spans facts across multiple documents.</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-agent-multihop"></pre>
+                    </div>
+                </div>
+            </div>
+
             </div> <!-- /group-rag -->
 
         </div>
@@ -2334,6 +2457,8 @@
         document.getElementById('out-rag-pipeline').textContent                      = window.SAMPLES['rag_pipeline']                               || '';
         document.getElementById('out-rag-chunk-crossencoder').textContent            = window.SAMPLES['rag_chunk_crossencoder']                      || '';
         document.getElementById('out-rag-full-pipeline').textContent                = window.SAMPLES['rag_full_pipeline']                              || '';
+        document.getElementById('out-rag-agent-retrieve').textContent              = window.SAMPLES['rag_agent_retrieve']                             || '';
+        document.getElementById('out-rag-agent-multihop').textContent              = window.SAMPLES['rag_agent_multihop']                             || '';
     </script>
 </body>
 
