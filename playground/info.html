@@ -1147,6 +1147,84 @@
                     </div>
                 </div>
 
+                <!-- ── Retrieve ── -->
+                <div class="tool-card" id="card-retrieve">
+                    <div class="tool-header" onclick="toggle('card-retrieve')">
+                        <div class="tool-icon icon-green">R</div>
+                        <div class="tool-meta">
+                            <div class="tool-name">retrieve_tool</div>
+                            <div class="tool-file">tools/retrieve.py</div>
+                        </div>
+                        <div class="chevron">▼</div>
+                    </div>
+                    <div class="tool-body">
+                        <div class="tool-desc">
+                            Turns a ChromaDB vector store into a <code>@tool</code> an agent can optionally call.
+                            Uses HuggingFace <code>all-MiniLM-L6-v2</code> embeddings locally — no OpenAI key needed.
+                            The agent reads the docstring to decide <em>when</em> retrieval is necessary.
+                        </div>
+
+                        <div class="flow" style="margin-bottom:16px">
+                            <div class="flow-step">"Who founded Scale AI?"</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">agent reasons</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step">retrieve_tool(query)</div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-step highlight">top-4 chunks</div>
+                        </div>
+
+                        <div class="section-grid">
+                            <div class="section-box">
+                                <div class="section-label">Input</div>
+                                <div class="param-row">
+                                    <div class="param-name">query</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Natural language search query</div>
+                                </div>
+                            </div>
+                            <div class="section-box">
+                                <div class="section-label">Output</div>
+                                <div class="param-row">
+                                    <div class="param-name">returns</div>
+                                    <div class="param-type">str</div>
+                                    <div class="param-desc">Top-4 matching chunks joined by double newline</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-box" style="margin-bottom:16px">
+                            <div class="section-label">Implementation</div>
+                            <div class="code-block">
+                                <span class="cm"># Local embeddings — only ANTHROPIC_API_KEY required</span><br>
+                                embeddings = <span class="fn">HuggingFaceEmbeddings</span>(model_name=<span class="st">"all-MiniLM-L6-v2"</span>)<br>
+                                vectorstore = <span class="fn">Chroma</span>(embedding_function=embeddings)<br>
+                                <br>
+                                <span class="kw">@tool</span><br>
+                                <span class="kw">def</span> <span class="fn">retrieve_tool</span>(query: str) -> str:<br>
+                                &nbsp;&nbsp;<span class="st">"""Search the knowledge base for relevant documents."""</span><br>
+                                &nbsp;&nbsp;docs = vectorstore.<span class="fn">similarity_search</span>(query, k=4)<br>
+                                &nbsp;&nbsp;<span class="kw">return</span> <span class="st">"\n\n"</span>.join(d.page_content <span class="kw">for</span> d <span class="kw">in</span> docs)
+                            </div>
+                        </div>
+
+                        <div class="key-points">
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Agent calls this <em>only when needed</em> — docstring is what Claude reads to decide</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>HuggingFace embeddings run locally — no external embedding API cost</div>
+                            </div>
+                            <div class="key-point">
+                                <div class="key-dot"></div>
+                                <div>Used by <code>rag_agent_retrieve.py</code> and <code>rag_agent_multihop.py</code></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
