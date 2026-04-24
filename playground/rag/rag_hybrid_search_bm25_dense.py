@@ -20,7 +20,7 @@
 #
 # Only ANTHROPIC_API_KEY needed — BM25 is pure Python, embeddings run locally.
 
-import os
+
 from langchain_anthropic import ChatAnthropic
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
