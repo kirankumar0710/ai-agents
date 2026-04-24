@@ -27,6 +27,7 @@
     <script src="rag/sample_output/rag_full_pipeline_with_ragas_output.js"></script>
     <script src="rag/sample_output/rag_agent_retrieve_output.js"></script>
     <script src="rag/sample_output/rag_agent_multihop_output.js"></script>
+    <script src="rag/sample_output/rag_hybrid_search_bm25_dense.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Syne:wght@400;600;800&display=swap');
 
@@ -2318,6 +2319,69 @@
                 </div>
             </div>
 
+            <!-- ── rag_hybrid_search_bm25_dense ── -->
+            <div class="pg-card" id="pg-rag-hybrid-search">
+                <div class="pg-header" onclick="togglePg('pg-rag-hybrid-search')">
+                    <div class="tool-icon icon-teal">🔀</div>
+                    <div class="tool-meta">
+                        <div class="tool-name">rag_hybrid_search_bm25_dense</div>
+                        <div class="tool-file">playground/rag/rag_hybrid_search_bm25_dense.py</div>
+                    </div>
+                    <div class="chevron">▼</div>
+                </div>
+                <div class="pg-body">
+                    <div class="pg-desc">
+                        Hybrid search combining BM25 (keyword) and Dense (semantic) retrieval fused with Reciprocal Rank Fusion (RRF).
+                        BM25 catches exact keyword matches; Dense catches semantic meaning — neither alone is as good as both combined.
+                    </div>
+
+                    <div class="concept-tags">
+                        <span class="concept-tag">Hybrid Search</span>
+                        <span class="concept-tag">BM25</span>
+                        <span class="concept-tag">Dense Retrieval</span>
+                        <span class="concept-tag">RRF fusion</span>
+                        <span class="concept-tag">EnsembleRetriever</span>
+                        <span class="concept-tag">HuggingFace embeddings</span>
+                    </div>
+
+                    <div class="section-label">Run It</div>
+                    <div class="section-box">
+                        <div class="code-block">
+                            <span class="cm"># Install dependencies</span><br>
+                            pip install langchain langchain-anthropic langchain-community langchain-classic langchain-huggingface chromadb sentence-transformers rank-bm25<br>
+                            <br>
+                            <span class="cm"># Run hybrid search</span><br>
+                            python3 rag_hybrid_search_bm25_dense.py
+                        </div>
+                    </div>
+
+                    <div class="section-label" style="margin-bottom:12px">How It Works</div>
+                    <div class="key-points">
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>BM25 retriever:</strong> pure keyword matching — no embeddings needed. Best for exact terms: names, IDs, technical keywords.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Dense retriever:</strong> semantic embedding search via HuggingFace <code>all-MiniLM-L6-v2</code> — catches synonyms and related concepts, runs locally.</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>RRF fusion:</strong> <code>EnsembleRetriever</code> merges both ranked lists by position — deduplicates and returns top-k docs with equal weights (0.5 / 0.5).</div>
+                        </div>
+                        <div class="key-point">
+                            <div class="key-dot"></div>
+                            <div><strong>Answer:</strong> fused context passed to Claude to generate the final answer. Only <code>ANTHROPIC_API_KEY</code> needed — embeddings run locally.</div>
+                        </div>
+                    </div>
+
+                    <div class="output-wrap">
+                        <div class="output-label">Sample Output</div>
+                        <pre class="output-block" id="out-rag-hybrid-search"></pre>
+                    </div>
+                </div>
+            </div>
+
             </div> <!-- /group-rag -->
 
         </div>
@@ -2537,6 +2601,7 @@
         document.getElementById('out-rag-full-pipeline').textContent                = window.SAMPLES['rag_full_pipeline']                              || '';
         document.getElementById('out-rag-agent-retrieve').textContent              = window.SAMPLES['rag_agent_retrieve']                             || '';
         document.getElementById('out-rag-agent-multihop').textContent              = window.SAMPLES['rag_agent_multihop']                             || '';
+        document.getElementById('out-rag-hybrid-search').textContent               = window.SAMPLES['rag_hybrid_search_bm25_dense']                    || '';
     </script>
 </body>
 
