@@ -29,6 +29,7 @@ Export them before running:
 ```bash
 export CONFIG_FILE=$HOME/projects/ai-agents/playground/config/config.json
 export CLAUDE_API_KEY_FILE=/path/to/your/claude_api.key
+export ANTHROPIC_API_KEY=<key>
 ```
 
 ## Concepts Covered

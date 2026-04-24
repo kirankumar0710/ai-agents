@@ -1,5 +1,7 @@
 anthropic==0.93.0
 chromadb
+langchain
+langchain-classic
 langchain-anthropic
 langchain-community
 langchain-core
@@ -10,5 +12,6 @@ langgraph
 mcp
 pypdf
 ragas
+rank_bm25
 requests>=2.28.0
 sentence_transformers
